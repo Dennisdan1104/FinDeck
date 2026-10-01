@@ -3,6 +3,7 @@
   "version": "0.1.3-alpha.1",
   "private": true,
   "description": "FinDeck desktop shell: an Electron window over the local FinDeck web UI, with tray, global hotkey, and opt-in autostart",
+  "author": "FinDeck",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Dennisdan1104/FinDeck.git",
@@ -14,6 +15,7 @@
     "start": "electron ."
   },
   "devDependencies": {
-    "electron": "^38.4.0"
+    "electron": "^38.4.0",
+    "electron-builder": "^26.15.3"
   }
 }

@@ -1,0 +1,74 @@
+# electron-builder configuration for the FinDeck desktop installer.
+#
+# The bundled server is NOT an asar application: it is a repository-layout
+# runtime tree (see scripts/build-desktop-installer.ts) staged outside the app
+# and copied verbatim into `resources/server`, because the finance layer
+# resolves `finance/`, `runtime/`, and the workspace packages by path relative
+# to the installation root. Only the Electron shell itself is packed into an
+# asar. Consequence: no `asarUnpack` entry is needed -- nothing that ships
+# inside the asar is native.
+
+appId: com.findeck.app
+productName: FinDeck
+copyright: Copyright © FinDeck
+
+directories:
+  # Icons for the window, the installer, and the shortcuts. `icon.ico` carries
+  # 16/32/48/256; electron-builder derives the rest from it.
+  buildResources: assets
+  # Repository-root `release/`; the build script also writes the unpacked and
+  # staged trees there.
+  output: ../../release
+
+files:
+  - main/**/*
+  - assets/icon.ico
+  - assets/icon-16.png
+  - package.json
+  - '!**/*.map'
+
+# The staged runtime closure, mapped to `resources/server` so the packaged shell
+# finds it at `join(process.resourcesPath, 'server')`. The source is written
+# relative to this project directory, which is how electron-builder resolves
+# `extraResources.from`; `scripts/build-desktop-installer.ts` stages exactly this
+# directory and re-checks the result under `release/win-unpacked` afterwards,
+# because electron-builder only warns when a source is missing.
+#
+# Two entries, not one: electron-builder's copy filter drops the root
+# `node_modules` of any `from` directory (see `createFilter` in its
+# `util/filter.js`), so the dependency closure needs its own mapping. Mapping it
+# as the source root also keeps its package directories out of that rule.
+#
+# No filter pattern on either entry: several dependencies ship dot-prefixed
+# runtime data (for example
+# `@earendil-works/pi-ai/dist/providers/data/.manifest.json`), and a glob filter
+# that does not opt into dotfiles would drop them.
+extraResources:
+  - from: ../../.tmp/desktop-installer/server
+    to: server
+  - from: ../../.tmp/desktop-installer/server/node_modules
+    to: server/node_modules
+
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  icon: icon.ico
+  # No certificate is configured, so the installer and the executable ship
+  # unsigned. Windows SmartScreen therefore warns on first run; that is
+  # expected for this build, not a packaging defect.
+  artifactName: FinDeck Setup ${version}.exe
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: FinDeck
+  uninstallDisplayName: FinDeck
+  # Sessions, settings, and downloaded components live under the user's
+  # `~/.findeck`, outside the installation directory; uninstalling must not
+  # take them with it.
+  deleteAppDataOnUninstall: false

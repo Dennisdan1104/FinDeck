@@ -86,6 +86,7 @@ export interface DshManifestSection {
 export interface ProfileManifest {
   name?: string
   dependencies?: Record<string, string>
+  optionalDependencies?: Record<string, string>
   peerDependencies?: Record<string, string>
   dsh?: DshManifestSection
 }
@@ -490,7 +491,16 @@ function readModuleFallbackManifest(anchor: string): ProfileManifest {
 
 /** Return dependency names that may be imported by a loader-visible plugin. */
 function profileDependencyNames(manifest: ProfileManifest): string[] {
-  return [...Object.keys(manifest.dependencies ?? {}), ...Object.keys(manifest.peerDependencies ?? {})]
+  // Optional dependencies participate as well: a native package ships its
+  // platform binary as one (`koffi` names `@koromix/koffi-<platform>-<arch>`),
+  // and it looks that binary up beside its own directory. Reaching the package
+  // through the fallback junction without the sibling link moves that lookup to
+  // the fallback directory, where the binary is absent and the import fails.
+  return [
+    ...Object.keys(manifest.dependencies ?? {}),
+    ...Object.keys(manifest.optionalDependencies ?? {}),
+    ...Object.keys(manifest.peerDependencies ?? {}),
+  ]
 }
 
 /** Resolve the installation generation that every profile must find through the fallback directory. */
@@ -507,7 +517,9 @@ function resolveModuleFallbackEntries(
   for (let next = queue.shift(); next !== undefined; next = queue.shift()) {
     // Peer dependencies participate: Service Definition packages (dsh-subprocess,
     // dsh-compaction, ...) are peers of their implementations, never plain
-    // dependencies, yet out-of-tree plugins import them directly.
+    // dependencies, yet out-of-tree plugins import them directly. Optional
+    // dependencies participate for the reason given at
+    // {@link profileDependencyNames}.
     /* v8 ignore next -- a real app manifest always declares dependencies */
     for (const dep of profileDependencyNames(next.manifest)) {
       if (links.has(dep)) continue

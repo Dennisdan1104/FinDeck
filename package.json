@@ -32,6 +32,7 @@
     "build:lib:host": "node --max-old-space-size=4096 ./node_modules/typescript/bin/tsc -b tsconfig.host.json && tsdown --env.DSH_BUILD_FACE host",
     "build:lib:client": "tsc -b tsconfig.client.json && tsdown --env.DSH_BUILD_FACE client",
     "build:web": "pnpm --filter @deepseek-ai/dsh-web-frontend run build",
+    "build:desktop-installer": "tsx scripts/build-desktop-installer.ts",
     "clean": "tsx scripts/clean.ts",
     "docs:dev": "pnpm --filter @deepseek-ai/website run dev",
     "docs:build": "tsx website/build.ts",

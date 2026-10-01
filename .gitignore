@@ -43,5 +43,6 @@ finance/python/.venv/
 /web-boot.log
 /data/
 /output/
+/release/
 /.vite-tmp/
 /.tmp/

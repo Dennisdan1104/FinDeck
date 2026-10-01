@@ -1,12 +1,21 @@
 /**
  * FinDeck desktop shell (Electron main process).
  *
- * The shell owns no UI of its own: it makes sure the local FinDeck web
- * server is up (through `start-findeck.ps1`, which is also what a manual
- * launch uses), reads the authenticated `?token=` URL that server printed into
- * its log, and points one BrowserWindow at it. Around that window it provides
- * the console-side trio -- a resident tray icon, a global hotkey, and an
- * opt-in autostart entry -- plus window-state persistence.
+ * The shell owns no UI of its own: it makes sure the local FinDeck web server
+ * is up, reads the authenticated `?token=` URL that server prints at startup,
+ * and points one BrowserWindow at it. Around that window it provides the
+ * console-side trio -- a resident tray icon, a global hotkey, and an opt-in
+ * autostart entry -- plus window-state persistence.
+ *
+ * Two launch modes, chosen by `app.isPackaged`:
+ *
+ * - A source checkout runs `start-findeck.ps1` (the same path a manual launch
+ *   uses) and reads the token URL the launcher leaves in the server log.
+ * - An installed build has no checkout and no guaranteed system Node, so it
+ *   runs the server itself: `process.execPath` with `ELECTRON_RUN_AS_NODE`,
+ *   which is the Node runtime Electron already ships, against the runtime tree
+ *   staged under `resources/server`. The token URL is read from that child's
+ *   stdout.
  *
  * `--smoke` runs the same startup path headlessly (hidden window, no tray, no
  * hotkey), prints `SMOKE OK <url>` once the page finishes loading, and exits.
@@ -17,21 +26,35 @@
  */
 
 import { spawn } from 'node:child_process'
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { closeSync, existsSync, mkdirSync, openSync, readFileSync, writeFileSync } from 'node:fs'
 import { get } from 'node:http'
+import { createServer } from 'node:net'
 import { homedir } from 'node:os'
 import { join } from 'node:path'
 
 import { app, BrowserWindow, Menu, Tray, dialog, globalShortcut, nativeImage, screen } from 'electron'
 
 /**
- * Repository root that owns the launcher script and the built CLI entry. A
- * source checkout runs this app with `app.getAppPath()` at `apps/desktop`, so
- * the root is two levels up; `FINDECK_REPO` overrides it for a relocated or
- * packaged build.
+ * Repository root that owns the launcher script, the finance layer, and the
+ * built CLI entry. A source checkout runs this app with `app.getAppPath()` at
+ * `apps/desktop`, so the root is two levels up; an installed build carries the
+ * same repository layout as `resources/server`. `FINDECK_REPO` overrides both
+ * for a relocated checkout.
  */
-const REPO_ROOT = process.env.FINDECK_REPO ?? join(app.getAppPath(), '..', '..')
+const REPO_ROOT = process.env.FINDECK_REPO
+  ?? (app.isPackaged ? join(process.resourcesPath, 'server') : join(app.getAppPath(), '..', '..'))
 const LAUNCHER = join(REPO_ROOT, 'start-findeck.ps1')
+/** Built CLI entry inside the runtime tree, at its repository location. */
+const SERVER_BIN = join(REPO_ROOT, 'apps', 'cli', 'lib', 'bin.js')
+/**
+ * The Node runtime the installer ships, so the installed app never asks the
+ * user for one. The server deliberately does not run on Electron's own Node:
+ * the loader reaches Node internals through `node-addon-require-builtin`, whose
+ * supported Electron fingerprints exclude this build, and `dsh-skill-office`
+ * refuses to activate under Electron. A plain Node is the runtime the whole
+ * harness is verified against, so the installer carries one.
+ */
+const NODE_BIN = join(REPO_ROOT, 'runtime', 'node', 'bin', 'node.exe')
 /** Icon assets of this package; `icon.ico` carries 16/32/48/256 for the window. */
 const WINDOW_ICON = join(import.meta.dirname, '..', 'assets', 'icon.ico')
 const TRAY_ICON = join(import.meta.dirname, '..', 'assets', 'icon-16.png')
@@ -39,6 +62,13 @@ const TRAY_ICON = join(import.meta.dirname, '..', 'assets', 'icon-16.png')
 const PRELOAD = join(import.meta.dirname, 'preload.cjs')
 /** Port dedicated to the FinDeck launcher; see start-findeck.ps1. */
 const PORT = 3081
+/**
+ * How many consecutive ports an installed build may try. The launcher owns
+ * 3081, but a server left behind by an earlier launch -- or by the checkout's
+ * own launcher -- can still hold it, and refusing to start is worse than
+ * serving the window from the next free port.
+ */
+const PORT_ATTEMPTS = 20
 const HOTKEY = 'Alt+Shift+D'
 const SMOKE = process.argv.includes('--smoke')
 
@@ -70,14 +100,18 @@ const WINDOW_STATE_SAVE_DEBOUNCE_MS = 400
  */
 const TRAY_CLICK_TOGGLE_DELAY_MS = 500
 
-/** Same pattern start-findeck.ps1 uses to read the token URL back. */
-const TOKEN_URL_PATTERN = new RegExp(`http://127\\.0\\.0\\.1:${PORT}/\\?token=[A-Za-z0-9_\\-]+`, 'g')
+/** Same pattern start-findeck.ps1 uses to read the token URL back. @param {number} port @returns {RegExp} */
+function tokenUrlPattern(port) {
+  return new RegExp(`http://127\\.0\\.0\\.1:${port}/\\?token=[A-Za-z0-9_\\-]+`, 'g')
+}
 
 let win = null
 let tray = null
 let isQuitting = false
 let saveTimer = null
 let trayToggleTimer = null
+/** The installed build's own server child; the checkout build leaves this null. */
+let server = null
 
 /** @param {string} file @param {object} fallback @returns {object} parsed JSON, or `fallback` when absent or malformed. */
 function readJson(file, fallback) {
@@ -111,9 +145,9 @@ function readSettings() {
 
 /**
  * Last authenticated URL printed into the server log, or null.
- * @returns {string | null}
+ * @param {number} port @returns {string | null}
  */
-function readAuthenticatedUrl() {
+function readAuthenticatedUrl(port) {
   if (!existsSync(LOG_OUT)) return null
   let text
   try {
@@ -121,7 +155,7 @@ function readAuthenticatedUrl() {
   } catch {
     return null
   }
-  const matches = text.match(TOKEN_URL_PATTERN)
+  const matches = text.match(tokenUrlPattern(port))
   return matches && matches.length > 0 ? matches[matches.length - 1] : null
 }
 
@@ -184,7 +218,7 @@ function fail(message, detail) {
  * previous boot's line.
  * @returns {Promise<string>} authenticated `http://127.0.0.1:3081/?token=...` URL
  */
-async function ensureService() {
+async function ensureServiceFromLauncher() {
   const launcher = spawn(
     'powershell.exe',
     ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', LAUNCHER, '-NoBrowser', '-Port', String(PORT)],
@@ -200,7 +234,7 @@ async function ensureService() {
 
   const deadline = Date.now() + SERVICE_TIMEOUT_MS
   while (Date.now() < deadline) {
-    const url = readAuthenticatedUrl()
+    const url = readAuthenticatedUrl(PORT)
     if (url && await isTokenUrlLive(url)) return url
     if (spawnError) throw new Error(`无法启动 ${LAUNCHER}: ${spawnError.message}`)
     // Anything non-zero (a throw in the launcher, a foreign process on the
@@ -212,6 +246,125 @@ async function ensureService() {
     await delay(SERVICE_POLL_MS)
   }
   throw new Error(`等待服务超时（${SERVICE_TIMEOUT_MS / 1000}s）`)
+}
+
+/**
+ * Whether nothing is listening on a loopback port. The probe binds and
+ * immediately closes, so the answer is a snapshot: the server is spawned
+ * right after it, and a port lost in between is reported by that child's own
+ * startup failure.
+ * @param {number} port @returns {Promise<boolean>}
+ */
+function isPortFree(port) {
+  return new Promise((resolve) => {
+    const probe = createServer()
+    probe.once('error', () => resolve(false))
+    probe.once('listening', () => { probe.close(() => resolve(true)) })
+    probe.listen(port, '127.0.0.1')
+  })
+}
+
+/**
+ * A server already listening on `port` and answering its own boot token, or
+ * null. This is what lets a second launch adopt the resident server instead of
+ * starting another one: a shell that quits leaves its server running on
+ * purpose, and that server's token is only recoverable through the log.
+ * @param {number} port @returns {Promise<string | null>}
+ */
+async function adoptedUrlOnPort(port) {
+  const url = readAuthenticatedUrl(port)
+  if (url && await isTokenUrlLive(url)) return url
+  return null
+}
+
+/**
+ * Starts the runtime tree's own server as a child of this process and waits
+ * for the token URL it prints. The child runs on the Node runtime the installer
+ * carries, which is what a machine without Node.js gets instead of an
+ * installation step.
+ *
+ * The child's streams are the log files, not pipes. A pipe would tie the
+ * server's lifetime to this shell's -- the write side closes with the parent,
+ * and the server dies of the broken pipe -- while quitting the shell is
+ * deliberately not a request to stop the server. A file descriptor keeps the
+ * server resident and puts its startup line where support already looks.
+ * @param {number} port @returns {Promise<string>} authenticated URL for this boot
+ */
+async function ensureServiceFromRuntime(port) {
+  for (const required of [NODE_BIN, SERVER_BIN]) {
+    if (!existsSync(required)) throw new Error(`运行时缺少 ${required}；安装可能不完整`)
+  }
+  mkdirSync(join(FINDECK_HOME, 'logs'), { recursive: true })
+  const out = openSync(LOG_OUT, 'w')
+  const err = openSync(LOG_ERR, 'w')
+  server = spawn(
+    NODE_BIN,
+    [SERVER_BIN, 'web', '--no-open', '--port', String(port)],
+    {
+      cwd: REPO_ROOT,
+      windowsHide: true,
+      detached: false,
+      stdio: ['ignore', out, err],
+      env: {
+        ...process.env,
+        // The fork-owned home wins over any DSH_HOME an outer shell exported;
+        // both are set so a child that only knows DSH_HOME lands here too.
+        FINDECK_HOME,
+        DSH_HOME: FINDECK_HOME,
+        DSH_WEB_PORT: String(port),
+      },
+    },
+  )
+  let exitCode = null
+  let spawnError = null
+  server.on('error', (error) => { spawnError = error })
+  server.on('exit', (code) => { exitCode = code })
+  // The server outlives this shell by design; without this the shell would
+  // hold a libuv handle on a process it never intends to wait for.
+  server.unref()
+  // The child holds its own duplicates; keeping these would leak them for the
+  // shell's whole lifetime.
+  closeSync(out)
+  closeSync(err)
+
+  const deadline = Date.now() + SERVICE_TIMEOUT_MS
+  while (Date.now() < deadline) {
+    const announced = readAuthenticatedUrl(port)
+    if (announced && await isTokenUrlLive(announced)) return announced
+    if (spawnError) throw new Error(`无法启动服务 ${SERVER_BIN}: ${spawnError.message}`)
+    if (exitCode !== null) {
+      const detail = readErrorLogTail().split(/\r?\n/).slice(-10).join('\n')
+      throw new Error(`服务退出（code ${exitCode}）但没有打印认证 URL${detail ? `\n${detail}` : ''}`)
+    }
+    await delay(SERVICE_POLL_MS)
+  }
+  throw new Error(`等待服务超时（${SERVICE_TIMEOUT_MS / 1000}s）`)
+}
+
+/**
+ * Installed build: adopt a resident server or start one, walking forward from
+ * the launcher's port while it is taken. A port held by a server this shell
+ * did not start is skipped rather than fought over.
+ * @returns {Promise<string>} authenticated URL of the server the window shows
+ */
+async function ensureServiceFromInstalledRuntime() {
+  for (let port = PORT; port < PORT + PORT_ATTEMPTS; port += 1) {
+    const adopted = await adoptedUrlOnPort(port)
+    if (adopted) return adopted
+    if (!await isPortFree(port)) continue
+    return await ensureServiceFromRuntime(port)
+  }
+  throw new Error(`端口 ${PORT}-${PORT + PORT_ATTEMPTS - 1} 都不可用`)
+}
+
+/**
+ * Ensure a FinDeck web server is up and return its authenticated URL. A source
+ * checkout keeps the launcher path (`start-findeck.ps1`, the same one a manual
+ * launch uses); an installed build runs the staged runtime itself.
+ * @returns {Promise<string>}
+ */
+async function ensureService() {
+  return app.isPackaged ? ensureServiceFromInstalledRuntime() : ensureServiceFromLauncher()
 }
 
 /** @param {{x:number,y:number,width:number,height:number}} bounds @returns {boolean} */

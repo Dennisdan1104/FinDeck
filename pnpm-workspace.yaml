@@ -23,6 +23,20 @@ overrides:
   # nominally incompatible, failing the client build with TS2769 in
   # packages/client/ui-primitives/src/markdown/parse.ts.
   'micromark-util-types': '2.0.3'
+  # app-builder-lib 26.15.3 reads `ElectronDownloadCacheMode` from @electron/get,
+  # which only 3.1.0 and later export; its `^3.0.0` range alone leaves pnpm on
+  # 3.0.0, and the Electron download then dies with `Cannot read properties of
+  # undefined (reading 'ReadWrite')`.
+  'app-builder-lib>@electron/get': '3.1.0'
+  # The packaged runtime closure is a flat (hoisted) tree, and the profile
+  # module fallback mirrors it by package name. `content-type` therefore has to
+  # be one version for everyone: `negotiator` 1.1.0 requires `^2.1.0` while
+  # express and the MCP SDK keep a nested `1.0.5`, and whichever the mirror
+  # picks, the other consumer breaks -- in practice the web server then throws
+  # `invalid media type` on the first request carrying `Accept-Encoding`.
+  # Pinning negotiator to its dependency-free 0.x line, which is what express's
+  # own `accepts` and `compression` use, removes the three-way conflict.
+  'negotiator': '0.6.4'
 
 peerDependencyRules:
   allowedVersions:
@@ -51,6 +65,9 @@ allowBuilds:
   # The desktop shell's runtime; its postinstall downloads the prebuilt
   # Electron binary for this platform.
   electron: true
+  # electron-builder's Squirrel.Windows helper. The desktop installer ships the
+  # NSIS target only, so this platform-specific packer never runs.
+  electron-winstaller: false
 
 minimumReleaseAgeExclude:
   # Office engines and their API are qualified and released together by the kit
