@@ -1,0 +1,5 @@
+{
+  "version": 2,
+  "title": "非法：version 只能是字面量 1，blocks 至少 1 个",
+  "blocks": []
+}

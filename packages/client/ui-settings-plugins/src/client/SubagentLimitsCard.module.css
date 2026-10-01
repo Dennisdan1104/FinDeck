@@ -1,0 +1,48 @@
+/* Delegation limits card: two explained limit panels over one staged save. */
+
+.limits {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr));
+  gap: 12px;
+  margin: 8px 0 12px;
+}
+
+.limit {
+  min-width: 0;
+  padding: 16px;
+  border: 0.5px solid var(--dsw-alias-border-l3);
+  border-radius: 12px;
+  background: var(--dsw-alias-bg-layer-2);
+}
+
+.illustration {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+  color: var(--dsw-alias-brand-primary);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.illustration svg {
+  width: 96px;
+  height: 36px;
+  flex-shrink: 0;
+  overflow: visible;
+  fill: var(--dsw-alias-bg-layer-2);
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+
+.illustration span {
+  color: var(--dsw-alias-label-tertiary);
+}
+
+.note {
+  margin: 0;
+  color: var(--dsw-alias-label-tertiary);
+  font-size: 12px;
+  line-height: 1.6;
+}

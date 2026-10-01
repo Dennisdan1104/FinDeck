@@ -1,0 +1,20 @@
+name: weekly-healthcheck
+description: 每周资产体检：dataset 探活 + freshness 过期判定 + 活物率/死资产候选，产出体检报告资产
+trigger:
+  kind: cron
+  schedule: "0 9 * * 1"
+steps:
+  - id: healthcheck
+    script: finance/pipelines/weekly-healthcheck/healthcheck.py
+    params:
+      alive_days: 30
+      dead_days: 90
+    produces:
+      name: asset-health-report
+      kind: report
+      verbs: [preview]
+      description: 资产库每周体检报告（总资产数/活物率/探活失败/过期资产/死资产候选）
+      interface: markdown：output/asset_health_report.md（总览 + 探活结果 + 过期资产 + 死资产候选 + 触碰明细）
+      out: output/asset_health_report.md
+      tags: [assets, healthcheck, report]
+      dependencies: [pandas, pyyaml]

@@ -1,0 +1,109 @@
+/* The composer's mode selector: text-button form matching the access and plan
+   controls it sits beside. */
+
+.seat {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  max-width: 140px;
+  padding: 2px 6px;
+  border: none;
+  border-radius: 6px;
+  background: none;
+  color: var(--dsw-alias-label-secondary);
+  font-size: 12px;
+  line-height: 20px;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.seat:hover:not(:disabled) {
+  background: var(--dsw-alias-interactive-bg-hover);
+  color: var(--dsw-alias-label-primary);
+}
+
+.seat:focus-visible {
+  outline: 2px solid var(--dsw-alias-brand-primary);
+  outline-offset: 1px;
+}
+
+.seat:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.chevron {
+  flex: none;
+  color: var(--dsw-alias-label-quaternary);
+}
+
+/* Project-layer marker on the current mode: the session runs the project's own
+   copy of that preset, which reads differently from the global layer's. */
+.badge {
+  flex: none;
+  border-radius: 4px;
+  padding: 0 4px;
+  background: color-mix(in srgb, var(--ad-accent, var(--dsw-alias-state-business-primary)) 12%, transparent);
+  color: var(--ad-accent, var(--dsw-alias-state-business-primary));
+  font-size: 10px;
+  line-height: 14px;
+}
+
+/* The session-level AI-cluster toggle beside the composer's selector: the same
+   seat treatment as that selector, so the two read as one control row. Quiet
+   while off; a session with the cluster on takes the accent as a filled chip
+   (the plan chip's treatment). */
+.cluster {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex: none;
+  padding: 2px 6px;
+  border: none;
+  border-radius: 6px;
+  background: none;
+  color: var(--dsw-alias-label-secondary);
+  font-size: 12px;
+  line-height: 20px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.clusterIcon {
+  flex: none;
+  color: var(--dsw-alias-label-quaternary);
+}
+
+.cluster:hover:not(:disabled) {
+  background: var(--dsw-alias-interactive-bg-hover);
+  color: var(--dsw-alias-label-primary);
+}
+
+.cluster:hover:not(:disabled) .clusterIcon {
+  color: currentColor;
+}
+
+.cluster[data-on='true'] {
+  background: color-mix(in srgb, var(--ad-accent, var(--dsw-alias-state-business-primary)) 12%, transparent);
+  color: var(--ad-accent, var(--dsw-alias-state-business-primary));
+  font-weight: 500;
+}
+
+.cluster[data-on='true'] .clusterIcon {
+  color: currentColor;
+}
+
+.cluster[data-on='true']:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--ad-accent, var(--dsw-alias-state-business-primary)) 20%, transparent);
+}
+
+.cluster:focus-visible {
+  outline: 2px solid var(--dsw-alias-brand-primary);
+  outline-offset: 1px;
+}
+
+.cluster:disabled {
+  opacity: 0.6;
+  cursor: default;
+}

@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "title": "沪深300指数月线（样例数据集脸）",
+  "blocks": [
+    {
+      "type": "metric-card",
+      "title": "数据截止",
+      "verb": "preview",
+      "params": { "tail": 1 },
+      "extract": "tail.-1.date",
+      "format": "date"
+    },
+    {
+      "type": "metric-card",
+      "title": "总行数",
+      "verb": "preview",
+      "extract": "rows",
+      "format": "integer"
+    },
+    {
+      "type": "data-table",
+      "title": "最新 12 行",
+      "verb": "preview",
+      "params": { "n": 12 },
+      "columns": ["date", "open", "high", "low", "close"],
+      "max_rows": 12
+    },
+    {
+      "type": "line-chart",
+      "title": "收盘月线",
+      "verb": "preview",
+      "params": { "n": 128 },
+      "x": "date",
+      "y": "close"
+    }
+  ]
+}

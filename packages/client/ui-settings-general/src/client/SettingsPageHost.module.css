@@ -1,0 +1,27 @@
+/* Full-page settings section host: one scrolling column, content capped at
+ * the shell's page width (the frame centers this host). */
+
+.host {
+  width: 100%;
+  padding: 22px 28px 40px;
+  /* The shell's page column caps this host at 860px, so the padding has to sit
+     inside that cap; content-box would render the host 916px wide and push
+     every page's body 28px past the column's right edge. */
+  box-sizing: border-box;
+}
+
+/* Full-bleed host: the shell dropped the centered column for this section (a
+ * room-style page), so the host adds no padding of its own either — the page
+ * spans the main area and owns its chrome and scrolling. */
+.hostFill {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.missing {
+  color: var(--ad-text-3);
+  font-size: 13px;
+  padding: 24px 0;
+}

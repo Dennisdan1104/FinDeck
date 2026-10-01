@@ -1,0 +1,43 @@
+# FinDeck 配置模板
+# ---------------------------------------------------------------
+# 复制本文件为 ~/.findeck/settings.yaml （Windows: C:\Users\<你>\.findeck\settings.yaml）
+# 然后按 CONFIGURATION.md 的场景说明取消注释并填写。
+# FinDeck 不内置任何密钥；key 一律放在 .credentials.example.yaml 对应文件里。
+# ---------------------------------------------------------------
+
+# ── 场景 A：DeepSeek 官方 API（最常用，通常零配置）──────────────
+# 默认路由已指向官方，只需在 ~/.findeck/.credentials.yaml 里写：
+#   DEEPSEEK_API_KEY: sk-xxxx
+# 如需自定义再取消注释：
+# llm-deepseek:
+#   apiKeyEnv: DEEPSEEK_API_KEY
+#   baseURL: https://api.deepseek.com
+
+# ── 场景 B：OpenAI 兼容网关（中转/智谱/月之暗面/OpenAI 官方等）──
+# llm-pi-ai:
+#   providers:
+#     my-gateway:
+#       apiKeyEnv: MY_GATEWAY_API_KEY       # 名字要和 credentials 文件里的字段一致
+#       api: openai-completions
+#       baseURL: https://gateway.example/v1
+#       models:
+#         - id: your-model-id
+#       # 网关不认新字段时打开：
+#       # compat:
+#       #   supportsDeveloperRole: false
+#       #   maxTokensField: max_tokens
+
+# ── 场景 C：本地模型（Ollama / LM Studio / vLLM）───────────────
+# llm-pi-ai:
+#   providers:
+#     local-ollama:
+#       api: openai-completions
+#       baseURL: http://127.0.0.1:11434/v1
+#       models:
+#         - id: qwen3:32b
+#         - id: deepseek-r1:32b
+
+# ── 可选：挂载额外的自定义 skill 目录 ─────────────────────────
+# skill-filesystem:
+#   customSkillDirs:
+#     - /absolute/path/to/your/skills

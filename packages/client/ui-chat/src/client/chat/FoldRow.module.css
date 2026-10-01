@@ -1,0 +1,184 @@
+/* The one folding row of the process area. Two variants share the shape, the
+   chevron, and the folded body container; only type, colour, and the segment's
+   status mark differ.
+
+   [mark] [running " · "] label [" · " summary] [" · " meta] ▸ chevron
+   The chevron is drawn in CSS and points right while folded, turning down while
+   open; the body below it is indented behind one hairline rule and folds with
+   `hidden="until-found"` so browser find can still reveal it.
+
+   Every rule below addresses its own header and body with a child combinator:
+   folding rows nest inside a segment, and a descendant rule would restyle or
+   re-rotate the rows a segment contains. */
+
+.row {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.row > .header {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding: 2px 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+/* A quiet row is one tertiary line; hovering lifts it a step without painting
+   a background. */
+.row[data-variant='quiet'] > .header {
+  color: var(--dsw-alias-label-tertiary);
+  font-size: var(--dsh-content-font-size-tertiary, 12px);
+  line-height: calc(18px + var(--dsh-content-font-delta-tertiary, 0px));
+  font-weight: 400;
+}
+
+.row[data-variant='quiet'] > .header:hover {
+  color: var(--dsw-alias-label-secondary);
+}
+
+/* A segment header is the one heavier line: the ink the narration uses, at the
+   secondary tier. Its title keeps its colour on hover — only the chevron and
+   the counts lift out of their muted tier. */
+.row[data-variant='heavy'] > .header {
+  color: var(--dsw-alias-label-primary);
+  font-size: var(--dsh-content-font-size-secondary, 13px);
+  line-height: calc(18px + var(--dsh-content-font-delta-secondary, 0px));
+  font-weight: 500;
+}
+
+.row[data-variant='heavy'] > .header:hover > .toggle,
+.row[data-variant='heavy'] > .header:hover > .sep,
+.row[data-variant='heavy'] > .header:hover > .meta {
+  color: var(--dsw-alias-label-secondary);
+}
+
+/* In progress and settled share the product accent — the blue a flow strip
+   marks its current step with — and a segment in neither state reads quiet. */
+.segmentMark {
+  flex: none;
+  margin-right: 6px;
+  color: var(--dsw-alias-state-business-primary);
+}
+
+.segmentMark[data-state='none'] {
+  color: var(--dsw-alias-label-tertiary);
+}
+
+/* A row still producing output: the process area's only other accent. */
+.running {
+  flex: none;
+  color: var(--dsw-alias-state-business-primary);
+}
+
+.row[data-variant='heavy'] > .header > .toggle,
+.row[data-variant='heavy'] > .header > .sep,
+.row[data-variant='heavy'] > .header > .meta {
+  color: var(--dsw-alias-label-tertiary);
+}
+
+/* Punctuation that carries the line's current colour. */
+.sep {
+  flex: none;
+  white-space: pre;
+}
+
+.label {
+  flex: none;
+}
+
+.summary {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Streaming tail: the last line stays visible at the end of the row instead of
+   being clipped at its start. */
+.summary[data-follow-end] {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.summary[data-follow-end] .summaryText {
+  flex: 0 0 auto;
+  width: max-content;
+  min-width: 100%;
+  overflow: visible;
+  text-align: start;
+  text-overflow: clip;
+}
+
+.row[data-variant='heavy'] > .header > .label {
+  flex: 0 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.row[data-variant='heavy'] > .header > .meta {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  font-size: var(--dsh-content-font-size-tertiary, 12px);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Disclosure chevron: a 6px glyph in the line's own colour, pointing right
+   while folded (▸) and turned down while open (▾). */
+.toggle {
+  flex: none;
+  width: 0;
+  height: 0;
+  margin-left: auto;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 6px solid currentColor;
+  transform: rotate(0deg);
+  transition: transform 100ms ease;
+}
+
+.row[data-open] > .header > .toggle {
+  transform: rotate(90deg);
+}
+
+/* Everything a folding row owns: indented under its header behind one hairline,
+   folded as a whole. */
+.row > .body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  margin: 2px 0 2px 12px;
+  padding-left: 10px;
+  border-left: 1px solid var(--dsw-alias-border-l3);
+  color: var(--dsw-alias-label-tertiary);
+  font-size: var(--dsh-content-font-size-tertiary, 12px);
+  line-height: calc(18px + var(--dsh-content-font-delta-tertiary, 0px));
+}
+
+/* A segment contains whole rows — the Assistant's narration among them — so its
+   body keeps the block rhythm, with adjacent quiet rows closer together. */
+.row[data-variant='heavy'] > .body > * + * {
+  margin-top: 8px;
+}
+
+.row[data-variant='heavy'] > .body > [data-chat-quiet] + [data-chat-quiet] {
+  margin-top: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toggle {
+    transition: none;
+  }
+}

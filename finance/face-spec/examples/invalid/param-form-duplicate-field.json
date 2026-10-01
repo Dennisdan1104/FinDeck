@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "title": "param-form 字段重名与默认值类型不符",
+  "blocks": [
+    {
+      "type": "param-form",
+      "title": "非法：name 重复 + default 类型与 type 不一致（由 validate_face.py 程序化检查）",
+      "verb": "retrain",
+      "fields": [
+        { "name": "n_estimators", "label": "树数量", "type": "number", "default": "很多" },
+        { "name": "n_estimators", "label": "树数量（重复）", "type": "number", "default": 300 }
+      ]
+    }
+  ]
+}

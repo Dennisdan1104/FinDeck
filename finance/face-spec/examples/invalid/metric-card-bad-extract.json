@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "title": "metric-card 的 extract 路径非法",
+  "blocks": [
+    {
+      "type": "metric-card",
+      "title": "非法：extract 含连续点（空段）",
+      "verb": "preview",
+      "extract": "head..date"
+    }
+  ]
+}

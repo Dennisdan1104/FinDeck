@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "title": "数据组件缺 verb",
+  "blocks": [
+    {
+      "type": "data-table",
+      "title": "非法：数据来源 verb 必填"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "title": "未知组件类型",
+  "blocks": [
+    {
+      "type": "pie-chart",
+      "title": "非法：v1 封闭组件集合没有 pie-chart",
+      "verb": "preview"
+    }
+  ]
+}

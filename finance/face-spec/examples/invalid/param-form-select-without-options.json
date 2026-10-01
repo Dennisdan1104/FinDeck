@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "title": "select 字段缺 options",
+  "blocks": [
+    {
+      "type": "param-form",
+      "title": "非法：type=select 必须给 options",
+      "verb": "retrain",
+      "fields": [
+        { "name": "objective", "label": "目标函数", "type": "select" }
+      ]
+    }
+  ]
+}

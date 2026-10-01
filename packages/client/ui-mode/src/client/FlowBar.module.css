@@ -1,0 +1,135 @@
+/* The flow strip, redrawn to the frozen prototype (UI_REBUILD_PLAN 6.4):
+   quiet gray-blue band under the title row — steps with CSS dots on the left,
+   the right cluster (trajectory control + current-step line) at the far edge.
+   Colors resolve through the --ad-* token scale (ui-theme findeck.css). */
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 36px;
+  padding: 6px 18px;
+  border-bottom: 1px solid var(--ad-border-light);
+  background: var(--ad-bg-flow);
+  font-size: 12.5px;
+  line-height: 20px;
+  color: var(--ad-text-3);
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.steps {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.step {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.step[data-state='pending'] {
+  color: var(--ad-text-3);
+}
+
+.step[data-state='done'] {
+  color: var(--ad-text-2);
+}
+
+.step[data-state='current'] {
+  color: var(--ad-accent);
+  font-weight: 600;
+}
+
+/* The 26px step-line connector between adjacent steps. */
+.link {
+  width: 26px;
+  height: 1.5px;
+  margin: 0 8px;
+  flex: none;
+  background: var(--ad-step-line);
+}
+
+/* Progress dots, drawn in CSS per the prototype: pending = outlined, done =
+   filled gray, current = accent outline with a 6px accent core. */
+.dot {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  flex: none;
+  border: 1.5px solid var(--ad-dot-border);
+  border-radius: 50%;
+  corner-shape: round;
+}
+
+.step[data-state='done'] .dot {
+  border-color: var(--ad-text-2);
+  background: var(--ad-text-2);
+}
+
+.step[data-state='current'] .dot {
+  border-color: var(--ad-accent);
+}
+
+.step[data-state='current'] .dot::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  corner-shape: round;
+  transform: translate(-50%, -50%);
+  background: var(--ad-accent);
+}
+
+/* Right cluster: the owner-threaded control, then the current-step line. */
+.side {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+  padding-left: 12px;
+}
+
+.currentLine {
+  display: inline-flex;
+  align-items: center;
+  color: var(--ad-text-3);
+  font-size: 12px;
+}
+
+.model {
+  color: var(--ad-text-3);
+}
+
+.freeBadge {
+  display: inline-flex;
+  padding: 0 8px;
+  border-radius: 999px;
+  corner-shape: round;
+  background: var(--ad-hover);
+  color: var(--ad-text-2);
+}
+
+.trail {
+  color: var(--ad-text-3);
+}
+
+/* The AI-cluster marker beside a step's label; quieter than .freeBadge, which
+   names the mode rather than annotating a step. */
+.clusterBadge {
+  display: inline-flex;
+  padding: 0 6px;
+  border: 1px solid var(--ad-dot-border);
+  border-radius: 999px;
+  corner-shape: round;
+  color: var(--ad-text-3);
+  font-size: 11px;
+  line-height: 16px;
+}

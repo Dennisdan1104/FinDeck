@@ -1,0 +1,4 @@
+name: 极简模式
+description: 仅持久 shell 与编辑器的双工具极简助手，适合跑脚本和快速看数。
+order: 3
+mode_kind: free

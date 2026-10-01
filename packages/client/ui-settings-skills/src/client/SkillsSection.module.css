@@ -1,0 +1,530 @@
+/* Every color resolves through a `--dsw-alias-*` token. Bare `--border` /
+ * `--surface` / `--text-*` names, which nothing in this app defines, would
+ * render the light-mode literals written as their fallbacks and stay light
+ * under the dark theme. */
+
+/* No width cap: this page is hosted both in the settings dialog and as a
+   full-page section, and the latter gives it the whole main area. */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: var(--dsw-alias-label-primary);
+}
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.headText {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.title {
+  margin: 0;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  color: var(--dsw-alias-label-primary);
+}
+
+.intro {
+  margin: 0;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--dsw-alias-label-tertiary);
+}
+
+.notice {
+  margin: 0;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--dsw-alias-state-warn-label);
+}
+
+.empty {
+  margin: 12px 0 0;
+  padding: 12px;
+  border: 1px dashed var(--dsw-alias-border-l3);
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--dsw-alias-label-tertiary);
+  text-align: center;
+}
+
+.rows {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.row {
+  border: 0.5px solid var(--dsw-alias-border-l4);
+  border-radius: 16px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* A suppressed skill stays visible and fully legible: the switch and the state
+   word carry the fact, and dimming the row would make the metadata a disabled
+   reader cannot check. */
+.rowDisabled {
+  background: var(--dsw-alias-bg-module-platform);
+}
+
+.rowHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.checkbox {
+  box-sizing: border-box;
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--dsw-alias-brand-primary);
+  cursor: pointer;
+}
+
+.checkbox:disabled {
+  cursor: default;
+  opacity: 0.4;
+}
+
+.rowName {
+  font-family: var(--ds-font-family-code);
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+  color: var(--dsw-alias-label-primary);
+  overflow-wrap: anywhere;
+}
+
+.rowState {
+  flex: none;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--dsw-alias-label-tertiary);
+}
+
+.tags {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.tag {
+  flex: none;
+  padding: 1px 6px;
+  border: 0.5px solid var(--dsw-alias-border-l3);
+  border-radius: 4px;
+  font-size: 11px;
+  line-height: 16px;
+  color: var(--dsw-alias-label-secondary);
+}
+
+.rowDescription {
+  margin: 0;
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--dsw-alias-label-secondary);
+}
+
+/* Two columns of label/value pairs, so the metadata block stays scannable
+   without a heading row of its own. */
+.facts {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 2px 8px;
+  margin: 2px 0 0;
+}
+
+.factLabel {
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--dsw-alias-label-tertiary);
+}
+
+.factValue {
+  margin: 0;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--dsw-alias-label-secondary);
+  overflow-wrap: anywhere;
+}
+
+.factCode {
+  font-family: var(--ds-font-family-code);
+}
+
+/* `box-sizing` on every control: the app has no global border-box reset, so
+   without it the outlined variants stand 2px taller than the filled ones. */
+.primaryButton {
+  box-sizing: border-box;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  padding: 0 14px;
+  border: none;
+  border-radius: 18px;
+  background: var(--dsw-alias-button-primary-fill);
+  color: var(--dsw-alias-label-primary-foreground);
+  font: inherit;
+  font-size: 14px;
+  line-height: 22px;
+  cursor: pointer;
+}
+
+.primaryButton:hover:not(:disabled) {
+  background: var(--dsw-alias-button-primary-hover);
+}
+
+.primaryButton:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.secondaryButton {
+  box-sizing: border-box;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  padding: 0 14px;
+  border: 0.5px solid var(--dsw-alias-border-l3);
+  border-radius: 18px;
+  background: transparent;
+  color: var(--dsw-alias-label-primary);
+  font: inherit;
+  font-size: 14px;
+  line-height: 22px;
+  cursor: pointer;
+}
+
+.secondaryButton:hover:not(:disabled) {
+  background: var(--dsw-alias-interactive-bg-hover-solid);
+}
+
+.secondaryButton:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.secondaryButton:focus-visible,
+.checkbox:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--dsw-alias-border-l3);
+}
+
+.error {
+  margin: 0;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--dsw-alias-state-error-primary);
+}
+
+.tabs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border-bottom: 0.5px solid var(--dsw-alias-border-l4);
+}
+
+.tab {
+  box-sizing: border-box;
+  padding: 6px 12px;
+  border: none;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--dsw-alias-label-secondary);
+  font: inherit;
+  font-size: 14px;
+  line-height: 22px;
+  cursor: pointer;
+}
+
+.tab:hover {
+  color: var(--dsw-alias-label-primary);
+}
+
+.tabActive {
+  border-bottom-color: var(--dsw-alias-brand-primary);
+  color: var(--dsw-alias-label-primary);
+}
+
+.tab:focus-visible,
+.linkButton:focus-visible,
+.primaryButton:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--dsw-alias-border-l3);
+}
+
+.headActions {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rowActions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.linkButton {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  padding: 0 10px;
+  border: none;
+  border-radius: 14px;
+  background: transparent;
+  color: var(--dsw-alias-label-secondary);
+  font: inherit;
+  font-size: 12px;
+  line-height: 18px;
+  cursor: pointer;
+}
+
+.linkButton:hover:not(:disabled) {
+  background: var(--dsw-alias-interactive-bg-hover);
+  color: var(--dsw-alias-label-primary);
+}
+
+.linkButtonDanger:hover:not(:disabled) {
+  background: var(--dsw-alias-interactive-bg-hover-danger);
+  color: var(--dsw-alias-state-error-primary);
+}
+
+.linkButton:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.editor {
+  border: 0.5px solid var(--dsw-alias-border-l4);
+  border-radius: 16px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.editorTitle {
+  margin: 0;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+  color: var(--dsw-alias-label-primary);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.fieldLabel {
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--dsw-alias-label-tertiary);
+}
+
+.input,
+.textarea {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0 10px;
+  border: 0.5px solid var(--dsw-alias-border-l4);
+  border-radius: 8px;
+  font: inherit;
+  font-size: 14px;
+  line-height: 22px;
+  background: var(--dsw-alias-bg-layer-1);
+  color: var(--dsw-alias-label-primary);
+}
+
+.input {
+  height: 32px;
+}
+
+.textarea {
+  padding: 6px 10px;
+  font-family: var(--ds-font-family-code);
+  font-size: 13px;
+  line-height: 20px;
+  resize: vertical;
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: var(--dsw-alias-brand-primary);
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--dsw-alias-label-dimmed);
+}
+
+.input:disabled,
+.textarea:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.editorActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.link {
+  align-self: flex-start;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--dsw-alias-brand-primary);
+}
+
+.importRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ── create-from-sessions picker ─────────────────────────────────────────── */
+
+/* The action bar sits above the picker: the selection count and the button that
+   consumes it stay in view while the grouped session list scrolls. */
+.forgeBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 12px;
+  padding: 8px 12px;
+  border: 0.5px solid var(--dsw-alias-border-l4);
+  border-radius: 12px;
+  background: var(--dsw-alias-bg-module-platform);
+}
+
+.forgeSelection {
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--dsw-alias-label-secondary);
+}
+
+.forgeGroups {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.forgeGroup {
+  border: 0.5px solid var(--dsw-alias-border-l4);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.forgeGroupHead {
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: none;
+  background: transparent;
+  color: var(--dsw-alias-label-primary);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.forgeGroupHead:hover {
+  background: var(--dsw-alias-interactive-bg-hover);
+}
+
+.forgeGroupHead:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 2px var(--dsw-alias-border-l3);
+}
+
+.forgeChevron,
+.forgeChevronOpen {
+  flex: none;
+  transition: transform 120ms ease;
+}
+
+.forgeChevron {
+  transform: rotate(-90deg);
+}
+
+.forgeGroupName {
+  font-family: var(--ds-font-family-code);
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+  color: var(--dsw-alias-label-primary);
+  overflow-wrap: anywhere;
+}
+
+.forgeGroupCount {
+  flex: none;
+  margin-left: auto;
+  padding: 1px 6px;
+  border: 0.5px solid var(--dsw-alias-border-l3);
+  border-radius: 4px;
+  font-size: 11px;
+  line-height: 16px;
+  color: var(--dsw-alias-label-secondary);
+}
+
+.forgeGroupSessions {
+  list-style: none;
+  margin: 0;
+  padding: 0 12px 6px;
+  display: flex;
+  flex-direction: column;
+}
+
+.forgeSession {
+  padding: 6px 0;
+  border-top: 0.5px solid var(--dsw-alias-border-l4);
+}
+
+/* The same picker in the frame-wide dialog: wider than the primitive's default
+   card, with only the picker scrolling so the title and close stay put. */
+.forgeDialog {
+  width: min(560px, 100%);
+}
+
+.forgeDialogBody {
+  max-height: min(60vh, 560px);
+  overflow: auto;
+}

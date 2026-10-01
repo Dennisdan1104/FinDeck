@@ -1,0 +1,345 @@
+/* Root frame of the FinDeck shell: fixed sidebar column, page/conversation
+ * main area, details drawer, and the click-through overlay layer. Colors
+ * resolve through the --ad-* token scale (ui-theme findeck.css). */
+
+.frame {
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+  position: relative; /* anchors the overlay layer and the titlebar band */
+  background: var(--ad-bg-main);
+}
+
+/* The strip the window controls occupy: every column pads it out at the top and
+   the band itself paints nothing, so the buttons own their space without the
+   caption's fill or its 1px rule. It carries the window drag the hidden caption
+   used to provide, and its left end — where no window button sits — holds the
+   sidebar toggle. The desktop shell's window keeps that band above every
+   column, so the toggle lives there; a plain browser tab keeps no band and
+   carries the toggle in the sidebar's own user row instead, leaving the strip
+   one job: the expand affordance for the collapsed column. `--dsh-shell-topband`
+   is the band's height (ui-theme); see the browser-tab rule below for the split. */
+.titlebarSpace {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  height: var(--dsh-shell-topband, 32px);
+  z-index: 30;
+  -webkit-app-region: drag;
+}
+
+/* Sidebar toggle: a bare 28px icon control in the sidebar's own inset, opting
+   out of the band's drag so a click never starts a window move. */
+.titlebarToggle {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--ad-radius-s);
+  color: var(--ad-text-2);
+  -webkit-app-region: no-drag;
+}
+
+.titlebarToggle:hover {
+  background: var(--ad-hover);
+  color: var(--ad-text);
+}
+
+.titlebarToggle:focus-visible {
+  outline: 1px solid var(--ad-accent);
+}
+
+/* A plain browser tab keeps no window controls clear, so it reserves no band:
+   every column keeps its own inset and nothing floats above the page. The
+   sidebar column then carries the toggle itself, in its bottom user row
+   (Sidebar.module.css), and the frame's strip has one job left — the expand
+   affordance for the collapsed column, whose own toggle left the frame with it
+   — so the strip exists only in that state, shrunk to the toggle's own box
+   rather than spanning the top. Only the desktop shell's window keeps the band
+   above every column, and with it the toggle at the band's left end — the
+   marker `html[data-shell="desktop"]`, which apps/desktop's preload writes
+   before the client boots. */
+:global(html:not([data-shell='desktop'])) .frame {
+  --dsh-shell-topband: 0px;
+}
+
+:global(html:not([data-shell='desktop'])) .titlebarSpace:not([data-collapsed]) {
+  display: none;
+}
+
+:global(html:not([data-shell='desktop'])) .titlebarSpace[data-collapsed] {
+  /* The column's own top and inline insets (Sidebar.module.css), so the
+     affordance the hidden column leaves behind lands where that column's
+     content started: the strip shrinks to the toggle's box instead of spanning
+     the top, and overlaps neither the conversation below it nor the window
+     edge. */
+  top: 12px;
+  right: auto;
+  height: 36px;
+  padding: 0 8px 0 10px;
+}
+
+.main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  /* Keeps the conversation header and the page chrome clear of the window
+     controls floating in the band above. */
+  padding-top: var(--dsh-shell-topband, 32px);
+}
+
+/* Full pages: a fixed chrome bar (back affordance) above a centered content
+ * column; content width caps per the prototype (860px, margin auto). The bar is
+ * also the window's drag handle under the desktop shell's hidden title bar
+ * (apps/desktop); a plain browser tab ignores the region. */
+.pageArea {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.pageBar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  height: 44px;
+  padding: 0 14px;
+  border-bottom: 1px solid var(--ad-border-light);
+  background: var(--ad-bg-main);
+  -webkit-app-region: drag;
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--ad-radius-s);
+  color: var(--ad-text);
+  -webkit-app-region: no-drag;
+}
+
+.backButton:hover {
+  background: var(--ad-hover);
+}
+
+.pageScroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden; /* a page whose own content misbehaves must shrink, never scroll the frame */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* The one centered column every full page shares. The constraint lives on a
+ * real element, not the slot wrapper: renderSlot's outer node is
+ * display:contents, where width/max-width have no effect, so a
+ * `.pageScroll > *` rule would silently miss every page host below it. */
+.pageColumn {
+  width: 100%;
+  max-width: 860px;
+  flex: none;
+}
+
+/* Full-bleed page (the roundtable's room layout): spans the main area under
+ * the chrome bar with no width cap; the page owns its scrolling, so the shell
+ * adds none. */
+.pageFill {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Conversation keeps its own column mechanics (the occupant scrolls inside). */
+.conversationArea {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── settings dialog ──
+ * The shared Modal primitive draws the mask (--dsw-alias-bg-mask-1 plus
+ * --dsw-mask-blur), the card, and both implicit dismissals; these rules turn
+ * that card into the two-column settings surface and keep the dialog's own
+ * chrome on the shared token scale. */
+.settingsDialog {
+  flex-direction: row;
+  gap: 0;
+  width: min(880px, 100%);
+  height: min(760px, calc(100vh - 48px));
+  padding: 0;
+}
+
+/* Section rail: one row per settings page, scrollable on its own so a long
+ * list never moves the page beside it. */
+.settingsRail {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 224px;
+  padding: 12px 8px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  border-right: 0.5px solid var(--dsw-alias-border-l2);
+}
+
+.settingsRailItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 7px 10px 7px 8px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  color: var(--dsw-alias-label-primary);
+  font-size: 14px;
+  line-height: 22px;
+  text-align: left;
+}
+
+.settingsRailItem:hover {
+  background: var(--dsw-alias-interactive-bg-hover);
+}
+
+.settingsRailIcon {
+  flex: none;
+}
+
+.settingsRailOn {
+  background: var(--dsw-alias-bg-module-platform);
+  font-weight: 500;
+}
+
+.settingsRestart {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  margin-top: 8px;
+  padding: 7px 10px 7px 8px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  color: var(--dsw-alias-label-secondary);
+  font-size: 14px;
+  line-height: 22px;
+  text-align: left;
+}
+
+.settingsRestart:hover {
+  background: var(--dsw-alias-interactive-bg-hover);
+}
+
+/* Restarting is a terminal state for this page — the control stays muted until
+ * the reload the restart ends with. */
+.settingsRestart:disabled {
+  color: var(--dsw-alias-label-tertiary);
+  background: transparent;
+  cursor: default;
+}
+
+.settingsPanel {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.settingsHeader {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 22px 14px 12px 24px;
+}
+
+.settingsTitle {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  color: var(--dsw-alias-label-primary);
+}
+
+.settingsClose {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  color: var(--dsw-alias-label-secondary);
+}
+
+.settingsClose:hover {
+  background: var(--dsw-alias-interactive-bg-hover);
+}
+
+/* The page region scrolls inside the card; the scrollbar thumb takes the l2
+ * elevation tokens the panel surface uses (ui-theme styles/scrollbar.css). */
+.settingsBody {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  --dsh-scrollbar-thumb: var(--dsw-alias-scrollbar-bg-l2);
+  --dsh-scrollbar-thumb-hover: var(--dsw-alias-scrollbar-hover-l2);
+}
+
+/* Details drawer: stays mounted while closed (state survives a close cycle). */
+.details {
+  width: 420px;
+  flex: none;
+  min-width: 0;
+  box-sizing: border-box; /* the drawer's 420px includes its border */
+  overflow-y: auto;
+  border-left: 1px solid var(--ad-border);
+  background: var(--ad-bg-main);
+  padding-top: var(--dsh-shell-topband, 32px);
+}
+
+.details[data-closed] {
+  display: none;
+}
+
+/* Right column track: geometry only. Its occupant draws an absolutely
+ * positioned panel against the frame's right edge (ui-sidebar-right), so this
+ * box reserves the width and never becomes that panel's containing block —
+ * no position and no overflow, or a hidden panel would be clipped instead of
+ * sliding off the edge. Widths travel with the panel's slide. */
+.rightbar {
+  flex: none;
+  min-width: 0;
+  transition: width var(--ds-transition-duration-slow) var(--ds-ease-in-out);
+}
+
+/* Frame-wide floating layer, above every column and outside their scroll
+ * containers; click-through except where an entry opts back in. */
+.overlayLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.overlayLayer > * {
+  pointer-events: auto;
+}

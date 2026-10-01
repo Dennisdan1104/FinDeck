@@ -1,0 +1,188 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://findeck.local/face.schema.json",
+  "title": "FinDeck Face (v1)",
+  "description": "资产的脸：版本目录内的 face.json。脸是投影不是本体——渲染器唯一，AI 只填数据。",
+  "type": "object",
+  "required": ["version", "title", "blocks"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "const": 1,
+      "description": "规范版本，字面量 1。"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "description": "脸标题，显示在资产页面顶部。"
+    },
+    "blocks": {
+      "type": "array",
+      "minItems": 1,
+      "description": "组件列表，至少 1 个；渲染顺序即数组顺序。",
+      "items": { "$ref": "#/$defs/block" }
+    }
+  },
+  "$defs": {
+    "params": {
+      "type": "object",
+      "description": "传给数据来源 verb / 触发 verb 的参数对象（自由键值，由 verb 自行解释）。"
+    },
+    "extractPath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?:[A-Za-z_][A-Za-z0-9_]*|-?[0-9]+)(?:\\.(?:[A-Za-z_][A-Za-z0-9_]*|-?[0-9]+))*$",
+      "description": "点路径，用于从 verb 返回的字典里抽取标量：段为标识符或整数下标（负下标从尾部数），如 rows、head.-1.date。"
+    },
+    "block": {
+      "description": "以 type 判别的封闭组件集合（v1 共 8 种）。",
+      "oneOf": [
+        { "$ref": "#/$defs/metricCard" },
+        { "$ref": "#/$defs/lineChart" },
+        { "$ref": "#/$defs/dataTable" },
+        { "$ref": "#/$defs/paramForm" },
+        { "$ref": "#/$defs/actionButton" },
+        { "$ref": "#/$defs/logView" },
+        { "$ref": "#/$defs/statusBadge" },
+        { "$ref": "#/$defs/embed" }
+      ]
+    },
+    "metricCard": {
+      "type": "object",
+      "required": ["type", "verb"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "const": "metric-card" },
+        "title": { "type": "string", "minLength": 1 },
+        "verb": { "type": "string", "minLength": 1, "description": "数据来源 verb。" },
+        "params": { "$ref": "#/$defs/params" },
+        "format": { "type": "string", "minLength": 1, "description": "指标格式化提示，如 percent / 0.00。" },
+        "extract": { "$ref": "#/$defs/extractPath" }
+      }
+    },
+    "lineChart": {
+      "type": "object",
+      "required": ["type", "verb"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "const": "line-chart" },
+        "title": { "type": "string", "minLength": 1 },
+        "verb": { "type": "string", "minLength": 1, "description": "数据来源 verb。" },
+        "params": { "$ref": "#/$defs/params" },
+        "x": { "type": "string", "minLength": 1, "description": "X 轴列名。" },
+        "y": { "type": "string", "minLength": 1, "description": "Y 轴列名。" }
+      }
+    },
+    "dataTable": {
+      "type": "object",
+      "required": ["type", "verb"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "const": "data-table" },
+        "title": { "type": "string", "minLength": 1 },
+        "verb": { "type": "string", "minLength": 1, "description": "数据来源 verb。" },
+        "params": { "$ref": "#/$defs/params" },
+        "columns": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 },
+          "description": "要展示的列名（可选，缺省展示全部）。"
+        },
+        "max_rows": { "type": "integer", "minimum": 1, "description": "最多展示行数。" }
+      }
+    },
+    "paramForm": {
+      "type": "object",
+      "required": ["type", "verb", "fields"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "const": "param-form" },
+        "title": { "type": "string", "minLength": 1 },
+        "verb": { "type": "string", "minLength": 1, "description": "触发 verb：表单提交后调它。" },
+        "params": { "$ref": "#/$defs/params" },
+        "fields": {
+          "type": "array",
+          "minItems": 1,
+          "description": "表单字段；渲染器据此收参后再触发 verb。",
+          "items": { "$ref": "#/$defs/formField" }
+        }
+      }
+    },
+    "formField": {
+      "type": "object",
+      "required": ["name", "label", "type"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "minLength": 1, "description": "参数名，作为 verb 的 params 键。" },
+        "label": { "type": "string", "minLength": 1, "description": "界面标签。" },
+        "type": { "enum": ["number", "string", "boolean", "select"] },
+        "default": { "description": "默认值（类型应与 type 一致，由 validate_face.py 补充检查）。" },
+        "options": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" },
+          "description": "type=select 时必填（由 if/then 强制）。"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "type": { "const": "select" } },
+            "required": ["type"]
+          },
+          "then": { "required": ["options"] }
+        }
+      ]
+    },
+    "actionButton": {
+      "type": "object",
+      "required": ["type", "verb"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "const": "action-button" },
+        "title": { "type": "string", "minLength": 1 },
+        "verb": { "type": "string", "minLength": 1, "description": "触发 verb：点击后调它。" },
+        "params": { "$ref": "#/$defs/params" },
+        "confirm": { "type": "boolean", "description": "true 时点击先弹确认。" }
+      }
+    },
+    "logView": {
+      "type": "object",
+      "required": ["type", "verb"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "const": "log-view" },
+        "title": { "type": "string", "minLength": 1 },
+        "verb": { "type": "string", "minLength": 1, "description": "数据来源 verb（返回日志文本或行列表）。" },
+        "params": { "$ref": "#/$defs/params" }
+      }
+    },
+    "statusBadge": {
+      "type": "object",
+      "required": ["type", "verb"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "const": "status-badge" },
+        "title": { "type": "string", "minLength": 1 },
+        "verb": { "type": "string", "minLength": 1, "description": "数据来源 verb（返回状态值）。" },
+        "params": { "$ref": "#/$defs/params" },
+        "extract": { "$ref": "#/$defs/extractPath" }
+      }
+    },
+    "embed": {
+      "type": "object",
+      "required": ["type", "path"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "const": "embed" },
+        "title": { "type": "string", "minLength": 1 },
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^(?!/)(?!.*\\.\\.)[A-Za-z0-9._/-]+$",
+          "description": "版本目录内相对 html 路径；禁止绝对路径与任何 `..` 片段。"
+        }
+      }
+    }
+  }
+}

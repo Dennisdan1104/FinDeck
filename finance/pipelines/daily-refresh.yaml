@@ -1,0 +1,58 @@
+name: daily-refresh
+description: 沪深300每日刷新：月度面板增量更新 → 因子排序模型重训 → 生成日报
+trigger:
+  kind: cron
+  schedule: "0 17 * * 1-5"
+steps:
+  - id: update-panel
+    script: finance/pipelines/daily-refresh/update_panel.py
+    params:
+      probe_limit: 5
+    inputs:
+      - hs300-constituents
+      - hs300-monthly-panel
+    produces:
+      name: hs300-monthly-panel
+      kind: dataset
+      verbs: [preview, update]
+      description: 沪深300成分股月度面板（baostock 月线，含 code/date/OHLCV/amount）
+      interface: pd.read_parquet('output/hs300_monthly_panel.parquet') -> DataFrame[code, date, open, high, low, close, volume, amount]
+      out: output/hs300_monthly_panel.parquet
+      tags: [hs300, monthly, panel]
+      dependencies: [pandas, pyarrow, baostock]
+      update_frequency: monthly
+  - id: factor-model
+    script: finance/pipelines/daily-refresh/factor_model.py
+    params:
+      model: ridge
+      estimator_params:
+        alpha: 1.0
+      window_years: 8
+      n_splits: 5
+    inputs:
+      - hs300-monthly-panel
+    produces:
+      name: hs300-monthly-rank-model
+      kind: model
+      verbs: [predict, retrain]
+      description: 沪深300月度收益排序模型（月度动量/反转/波动因子 → ridge，时间序列 CV 样本外 RankIC）
+      interface: pickle{'estimator','features','rank_ic','icir',...}；estimator.predict(DataFrame[8 个因子列]) -> 排序分数
+      out: output/hs300_rank_model.pkl
+      tags: [hs300, monthly, rank-model]
+      dependencies: [pandas, numpy, scipy, scikit-learn]
+  - id: daily-report
+    script: finance/pipelines/daily-refresh/daily_report.py
+    params:
+      top_n: 10
+    inputs:
+      - hs300-monthly-panel
+      - hs300-monthly-rank-model
+    produces:
+      name: hs300-daily-report
+      kind: report
+      verbs: [preview]
+      description: 沪深300日报（面板 as_of + 模型最新 top10 预测 + 验证指标摘录）
+      interface: markdown：output/daily_report_<date>.md（当日报告），归档副本 output/daily_report.md
+      out: output/daily_report.md
+      tags: [hs300, daily, report]
+      dependencies: [pandas, scikit-learn]

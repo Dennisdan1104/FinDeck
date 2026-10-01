@@ -1,0 +1,215 @@
+/* Sidebar column: the navigation-rail layout per the frozen prototype.
+ * All colors resolve through the --ad-* token scale (ui-theme findeck.css). */
+
+.side {
+  width: 236px;
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  background: var(--ad-bg-side);
+  border-right: 1px solid var(--ad-border);
+  /* The 12px inset plus the window-controls band the frame reserves above. */
+  padding: calc(12px + var(--dsh-shell-topband, 32px)) 10px 10px;
+  min-height: 0;
+  /* 236px is the whole column (prototype `.side`), so the padding and the
+     border sit inside it. Without this the column renders 257px and pushes
+     the main area right of the frame's shared edge. */
+  box-sizing: border-box;
+  /* The session list's edge inset follows the sidebar's own inline padding
+     (ui-workspace WorkspaceBrowser reads this name); the replaced ui-sidebar
+     row used to publish it. */
+  --dsh-sidebar-inline-padding: 10px;
+}
+
+/* Collapsed: the column leaves the frame entirely, and the toggle in the
+   window-controls band brings it back. Hidden rather than unmounted, so the
+   browsing region keeps its search, expansion, and scroll state. */
+.side[data-collapsed] {
+  display: none;
+}
+
+/* ── top tabs (research / roundtable) ── */
+.tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--ad-tab-well);
+  border-radius: 8px;
+  padding: 3px;
+  margin-bottom: 10px;
+  flex: none;
+}
+
+.tab {
+  flex: 1;
+  padding: 5px 0;
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--ad-text-2);
+  text-align: center;
+}
+
+.tab.on {
+  background: var(--ad-bg-main);
+  color: var(--ad-text);
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07);
+}
+
+/* ── nav items ── */
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 7px 10px;
+  border-radius: var(--ad-radius-s);
+  font-size: 13.5px;
+  text-align: left;
+  color: var(--ad-text);
+}
+
+.navItem:hover {
+  background: var(--ad-hover);
+}
+
+.navItem.on {
+  background: var(--ad-accent-soft);
+  color: var(--ad-accent);
+  font-weight: 600;
+}
+
+.navIcon {
+  flex: none;
+  color: var(--ad-text);
+}
+
+.navItem.on .navIcon {
+  color: var(--ad-accent);
+}
+
+/* The settings entry: the dialog trigger pinned under the browsing region,
+ * where the collapsed settings box used to sit. */
+.settingsEntry {
+  margin-top: 8px;
+  flex: none;
+}
+
+/* ── browsing region (workspaces slot occupant owns its scroll area) ── */
+.regionArea {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+/* ── user card ── */
+.userCard {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 12px;
+  margin-top: 8px;
+  flex: none;
+}
+
+.avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  corner-shape: round;
+  background: var(--ad-avatar-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: var(--ad-bg-main);
+  flex: none;
+}
+
+.userCard .name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ad-text);
+}
+
+/* The editable user-card name: a text-like button in the name's exact style,
+ * so the resting card reads exactly as before and only the interaction moves. */
+.nameButton {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ad-text);
+  font: inherit;
+  font-weight: 600;
+  text-align: left;
+  cursor: text;
+}
+
+.nameButton:focus-visible {
+  outline: 1px solid var(--ad-accent);
+  border-radius: 4px;
+}
+
+.nameInput {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  padding: 2px 6px;
+  border: 1px solid var(--ad-accent);
+  border-radius: var(--ad-radius-s);
+  background: var(--ad-bg-main);
+  color: var(--ad-text);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  outline: none;
+}
+
+.renaming {
+  color: var(--ad-text-3);
+  font-size: 11.5px;
+  flex: none;
+}
+
+/* The frame's collapse toggle, at the end of the column's bottom row: the same
+ * bare 28px icon control as the frame's band toggle, right-aligned so the row's
+ * name keeps the card's own inset and the control reads as its trailing action.
+ * The card's `align-items: center` puts it level with the avatar and the name.
+ * The desktop shell's window keeps the frame's band above every column and owns
+ * the toggle there instead, so this row's copy stands down on that side only
+ * (`html[data-shell="desktop"]`, written by apps/desktop's preload). */
+.collapseToggle {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  margin-left: auto;
+  border-radius: var(--ad-radius-s);
+  color: var(--ad-text-2);
+}
+
+:global(html[data-shell='desktop']) .collapseToggle {
+  display: none;
+}
+
+.collapseToggle:hover {
+  background: var(--ad-hover);
+  color: var(--ad-text);
+}
+
+.collapseToggle:focus-visible {
+  outline: 1px solid var(--ad-accent);
+}
+
+/* The failure trails under the card's row; name, error, and avatar all wrap
+ * within the fixed sidebar column rather than widening it. */
+.renameError {
+  align-self: stretch;
+  color: var(--dsw-alias-state-error-primary);
+  font-size: 11.5px;
+  line-height: 16px;
+  flex-basis: 100%;
+  margin-left: 35px;
+  min-width: 0;
+}

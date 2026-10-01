@@ -1,0 +1,27 @@
+# FinDeck 数据环境预装清单：数据 + 经典 ML（内置可调参）；PyTorch 系按需装，见 findeck-quant-models skill
+#
+# 版本策略：下界 = 本层代码实际验证过的接口（skill 里的接口表按此核对），上界 = 下一个可能
+# 静默改接口的大版本；akshare 的接口集合在小版本之间就会增删（如 stock_a_indicator_lg 消失），
+# 因此它额外用小版本上界锁死。改上界前先跑 finance/python/test-toolbox.py 和 smoke-test.py。
+#
+# 数据处理
+pandas>=2.2,<4
+numpy>=1.26,<3
+matplotlib>=3.8,<4
+pyarrow>=15.0,<26
+openpyxl>=3.1,<4
+tqdm>=4.66,<5
+requests>=2.31,<3
+pyyaml>=6.0,<7   # 资产库 manifest 读写（findeck.assets）
+jsonschema>=4.23,<5   # face.json 校验（finance/face-spec/validate_face.py）
+# 经典建模（FinDeck 内置，AI 可直接调参；PyTorch 系仍按需安装）
+scikit-learn>=1.5,<2
+lightgbm>=4.5,<5
+statsmodels>=0.14,<1
+scipy>=1.11,<2   # findeck.quickmodels 的 spearmanr、portfolio skill 的 minimize
+# 中国市场数据
+akshare>=1.18.94,<1.19
+baostock>=0.8,<1
+# 全球市场数据
+yfinance>=1.0,<2
+ccxt>=4.3,<5

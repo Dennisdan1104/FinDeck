@@ -1,0 +1,18 @@
+name: hs300-research
+display_name: 沪深300研究台
+description: 围绕沪深300成分股、月度面板、排序模型与日报的日常研究台
+assets:
+  - hs300-constituents
+  - hs300-monthly-panel
+  - hs300-monthly-rank-model
+  - hs300-daily-report
+conventions:
+  verbs: [update, predict, preview, retrain]
+  notes: |
+    优先运行已有资产作答（verb 桥或 pipeline），不要从零重做：数据过期先跑 hs300-monthly-panel 的
+    update 把面板刷到最新，再用 hs300-monthly-rank-model 的 predict 出排序，最后结合 hs300-daily-report
+    解读；hs300-constituents 是面板的上游成分股名单，只读不改。
+    修改任何资产之前先向用户说明意图（改哪个资产、改什么、为什么），修改必须经 assets.archive()
+    落成新版本（version 递增、supersedes 指向前一版，永不覆盖），完成后必须汇报：改了什么/为什么/
+    前后对比（修改前后的验证指标与实际影响）。
+    每次会话结束产出解读 report 资产（按 findeck-research 的归档纪律归档，validation 必须来自实跑）。

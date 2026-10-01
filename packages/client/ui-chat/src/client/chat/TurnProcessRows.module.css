@@ -1,0 +1,38 @@
+/* What the process rows add to the shared folding row: the file chip an action
+   run presents for a write or edit call. */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  padding: 2px 8px;
+  border: 0.5px solid var(--dsw-alias-border-l3);
+  border-radius: 6px;
+  background: var(--dsw-alias-bg-base);
+  color: var(--dsw-alias-label-secondary);
+  font-size: var(--dsh-content-font-size-tertiary, 12px);
+  line-height: calc(18px + var(--dsh-content-font-delta-tertiary, 0px));
+  cursor: pointer;
+}
+
+.chip:hover {
+  background: var(--dsw-alias-interactive-bg-hover-solid);
+  color: var(--dsw-alias-label-primary);
+}
+
+.chipPath {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chipAdded {
+  flex: none;
+  color: var(--dsw-alias-state-business-primary);
+}
+
+.chipRemoved {
+  flex: none;
+  color: var(--dsw-alias-state-error-primary);
+}

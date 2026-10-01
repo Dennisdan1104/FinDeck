@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "title": "每日晨报（样例报告脸）",
+  "blocks": [
+    {
+      "type": "status-badge",
+      "title": "保鲜度",
+      "verb": "check-freshness",
+      "extract": "freshness.status"
+    },
+    {
+      "type": "embed",
+      "title": "交互式报告",
+      "path": "report/alpha_deck_daily.html"
+    },
+    {
+      "type": "log-view",
+      "title": "最近一次生成日志",
+      "verb": "preview",
+      "params": { "tail": 200 }
+    }
+  ]
+}

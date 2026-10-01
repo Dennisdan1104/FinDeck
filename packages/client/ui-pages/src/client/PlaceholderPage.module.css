@@ -1,0 +1,335 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 8px 0 16px;
+}
+
+.title {
+  margin: 0;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 600;
+  color: var(--dsw-alias-label-primary);
+}
+
+.blurb {
+  margin: 0;
+  max-width: 52ch;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--dsw-alias-label-secondary);
+}
+
+.soon {
+  font-weight: 500;
+  color: var(--dsw-alias-label-primary);
+}
+
+.list {
+  margin: 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.listItem {
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--dsw-alias-label-primary);
+}
+
+.note {
+  margin: 0;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--dsw-alias-label-tertiary);
+  overflow-wrap: anywhere;
+}
+
+/* ── schedule & data-env real pages ────────────────────────────────────── */
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.copy {
+  flex: none;
+  border: 0.5px solid var(--dsw-alias-border-l3);
+  border-radius: 6px;
+  padding: 3px 10px;
+  background: transparent;
+  color: var(--ad-accent, var(--dsw-alias-state-business-primary));
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.code {
+  margin: 6px 0 0;
+  border: 1px solid var(--ad-border, #e6e6e2);
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: var(--ad-bg-main, var(--dsw-alias-bg-layer-3));
+  color: var(--dsw-alias-label-secondary);
+  font-family: var(--ds-font-family-code);
+  font-size: 12px;
+  line-height: 18px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* ── Help feature map ─────────────────────────────────────────────────── */
+
+.features {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.feature {
+  border: 1px solid var(--ad-border, #e6e6e2);
+  border-radius: 10px;
+  padding: 10px 14px;
+  background: var(--ad-bg-main, var(--dsw-alias-bg-layer-3));
+}
+
+.featureHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 13.5px;
+  color: var(--dsw-alias-label-primary);
+}
+
+.featureBody {
+  margin: 6px 0 0;
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--dsw-alias-label-secondary);
+}
+
+/* ── schedule card wall ───────────────────────────────────────────────── */
+
+.pageHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.headActions {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 6px;
+}
+
+.templates {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid var(--ad-border, #e6e6e2);
+  border-radius: var(--ad-radius, 10px);
+  padding: 12px 14px;
+  background: var(--ad-bg-main, var(--dsw-alias-bg-layer-3));
+}
+
+/* Group heading over its card wall: the top margin separates it from the page
+   head, the bottom one keeps the first card row off the heading's baseline. */
+.sectionTitle {
+  margin: 12px 0 8px;
+  font-size: 13.5px;
+  line-height: 20px;
+  font-weight: 600;
+  color: var(--dsw-alias-label-primary);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* A schedule card is read line by line (title, preview, time, session line), so
+   its leading is airier than the shared page copy and its blocks are separated
+   by a wider gap than the default wall rhythm. */
+.card {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid var(--ad-border, #e6e6e2);
+  border-radius: 10px;
+  padding: 14px 16px;
+  background: var(--ad-bg-main, var(--dsw-alias-bg-layer-3));
+}
+
+/* A paused run keeps its place in the wall but reads as out of play. */
+.card[data-paused='true'] {
+  opacity: 0.78;
+}
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+}
+
+.cardTitle {
+  min-width: 0;
+  overflow: hidden;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 600;
+  color: var(--dsw-alias-label-primary);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cardActions {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.toggle {
+  flex: none;
+  position: relative;
+  width: 32px;
+  height: 18px;
+  border: 0;
+  border-radius: 9px;
+  corner-shape: round;
+  background: var(--ad-border);
+  cursor: pointer;
+  transition: background 120ms ease;
+}
+
+.toggle[data-on='true'] {
+  background: var(--ad-accent);
+}
+
+.toggle:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.toggleThumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  corner-shape: round;
+  background: var(--ad-bg-main);
+  transition: left 120ms ease;
+}
+
+.toggle[data-on='true'] .toggleThumb {
+  left: 16px;
+}
+
+.menuBtn {
+  display: inline-flex;
+  align-items: center;
+  border: 0;
+  border-radius: 6px;
+  padding: 3px;
+  background: transparent;
+  color: var(--dsw-alias-label-secondary);
+  cursor: pointer;
+}
+
+.menuBtn:hover {
+  background: var(--dsw-alias-interactive-bg-hover);
+}
+
+.cardPreview {
+  margin: 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  font-size: 13px;
+  line-height: 21px;
+  color: var(--dsw-alias-label-secondary);
+  overflow-wrap: anywhere;
+}
+
+/* The card's own meta lines (session/kind, and the copy acknowledgement) keep
+   the same leading as the rest of the card body. */
+.card .note {
+  line-height: 20px;
+}
+
+.cardFoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.cardTime {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  line-height: 20px;
+  color: var(--dsw-alias-label-tertiary);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  padding: 1px 8px;
+  border-radius: 999px;
+  corner-shape: round;
+  font-size: 12px;
+  line-height: 20px;
+  white-space: nowrap;
+}
+
+.chip[data-tone='success'] {
+  background: color-mix(in srgb, var(--dsw-alias-state-success-primary) 12%, transparent);
+  color: var(--dsw-alias-state-success-primary);
+}
+
+.chip[data-tone='danger'] {
+  background: color-mix(in srgb, var(--dsw-alias-state-error-primary) 12%, transparent);
+  color: var(--dsw-alias-state-error-primary);
+}
+
+.chip[data-tone='neutral'] {
+  background: color-mix(in srgb, var(--dsw-alias-state-business-tertiary) 12%, transparent);
+  color: var(--dsw-alias-label-secondary);
+}
+
+.chip[data-tone='dim'] {
+  background: color-mix(in srgb, var(--dsw-alias-label-tertiary) 8%, transparent);
+  color: var(--dsw-alias-label-tertiary);
+}
+
+.empty {
+  padding: 32px 0;
+  text-align: center;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--dsw-alias-label-secondary);
+}

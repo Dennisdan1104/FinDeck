@@ -1,0 +1,1009 @@
+/* Room layout: the page fills the shell's full-bleed page area (the shell
+ * dropped the centered column for this section). The head strip and the
+ * pinned composer are fixed; the body region — the transcript, or the
+ * centered setup card while no table runs — owns the scrolling. */
+
+.page {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  color: var(--dsw-alias-label-primary);
+}
+
+.head {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 18px 8px;
+}
+
+.headTitle {
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 600;
+}
+
+.statusBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+  font-size: 12.5px;
+  line-height: 18px;
+}
+
+.phase {
+  font-weight: 600;
+  color: var(--ad-accent, var(--dsw-alias-state-business-primary));
+}
+
+.phase[data-phase='wait-user-guide'] {
+  color: var(--dsw-alias-state-warning-primary, #b45309);
+}
+
+.busy {
+  color: var(--dsw-alias-label-tertiary);
+  font-size: 12px;
+}
+
+.queueChip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 5px;
+  padding: 0 6px;
+  background: var(--dsw-alias-bg-layer-1);
+  color: var(--dsw-alias-label-secondary);
+  font-size: 11.5px;
+  line-height: 17px;
+}
+
+.reset {
+  margin-left: auto;
+  border: 0;
+  background: transparent;
+  color: var(--dsw-alias-label-tertiary);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.reset:hover {
+  color: var(--dsw-alias-state-error-primary);
+}
+
+/* ── room body ───────────────────────────────────────────────────────── */
+
+/* The shared transcript: fills the remaining height, unfenced — no border,
+   no panel background; the region itself scrolls and stays pinned to the
+   newest entry. */
+.transcript {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 8px 18px 18px;
+  --dsh-scrollbar-thumb: var(--dsw-alias-scrollbar-bg-l2);
+  --dsh-scrollbar-thumb-hover: var(--dsw-alias-scrollbar-hover-l2);
+}
+
+/* The setup/editor card: centered in the room body while no table runs,
+   capped for form readability; the pane scrolls when the card overflows. */
+.setupPane {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 20px 18px 48px;
+  --dsh-scrollbar-thumb: var(--dsw-alias-scrollbar-bg-l2);
+  --dsh-scrollbar-thumb-hover: var(--dsw-alias-scrollbar-hover-l2);
+}
+
+.setupPane > * {
+  width: 100%;
+  max-width: 720px;
+}
+
+.roster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.rosterChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid var(--ad-border, #e6e6e2);
+  border-radius: 999px;
+  corner-shape: round;
+  padding: 3px 10px;
+  background: var(--ad-bg-main, var(--dsw-alias-bg-layer-3));
+  font-size: 12px;
+  line-height: 17px;
+  color: var(--dsw-alias-label-secondary);
+}
+
+.rosterChip[data-floor='true'] {
+  border-color: var(--ad-accent, var(--dsw-alias-state-business-primary));
+  color: var(--ad-accent, var(--dsw-alias-state-business-primary));
+  font-weight: 600;
+}
+
+.rosterBadge {
+  font-size: 10px;
+  color: var(--dsw-alias-label-tertiary);
+}
+
+/* ── transcript entries ──────────────────────────────────────────────── */
+
+/* One round: the user's message plus every turn it opened. The hairline and
+   the extra space above every round but the first are what make the round
+   structure readable without a label. */
+.round {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.round + .round {
+  padding-top: 16px;
+  border-top: 1px solid var(--ad-border-light, var(--ad-border, #ececea));
+}
+
+.entry {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* A speaker turn is its own card in the room: a hairline box on the room's
+   surface, so a run of speakers reads as a stack of messages rather than as
+   one continuous text flow. The user's message and the room's own notes carry
+   their own block styling instead. */
+.entry[data-kind='speaker'] {
+  padding: 9px 12px 6px;
+  border: 1px solid var(--ad-border-light, var(--ad-border, #ececea));
+  border-radius: var(--ad-radius, 10px);
+  background: var(--ad-bg-main, var(--dsw-alias-bg-layer-3));
+}
+
+.entryHead {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-height: 18px;
+}
+
+.entryName {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ad-accent, var(--dsw-alias-state-business-primary));
+}
+
+/* The user's message: the one voice in the room that is not a speaker, so it
+   reads as its own block — accent rule on the left, tinted fill, bold label. */
+.entry[data-kind='user'] {
+  gap: 6px;
+  padding: 9px 12px 6px;
+  border-left: 3px solid var(--ad-accent, var(--dsw-alias-state-business-primary));
+  border-radius: 3px var(--ad-radius, 10px) var(--ad-radius, 10px) 3px;
+  background: var(--ad-accent-soft, var(--dsw-specific-bubble));
+}
+
+.entry[data-kind='user'] .entryName {
+  color: var(--dsw-alias-label-primary);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.entry[data-kind='user'] .entryTextPlain {
+  font-weight: 500;
+}
+
+/* The room's own notes stay quiet chrome: no card, no fill, muted text. */
+.entry[data-kind='system'] {
+  gap: 2px;
+  padding: 0 2px;
+}
+
+.entry[data-kind='system'] .entryName {
+  color: var(--dsw-alias-label-tertiary);
+}
+
+/* One entry's text: a plain block for the user's own message, and the shared
+   Markdown renderer's block for every speaker. The document spacing the
+   renderer ships (16–32px) is a reading column's, not a transcript's, so the
+   descendant rules below tighten every block to the room's 13/20px scale with
+   a paragraph gap that separates prose blocks without breaking the message
+   apart, and zero the first/last child the renderer already zeroes. */
+.entryText {
+  margin: 0;
+  font-size: 13px;
+  line-height: 20px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.entryTextPlain {
+  margin: 0;
+  font-size: 13px;
+  line-height: 20px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.entry .entryText p {
+  margin: 6px 0;
+}
+
+.entry .entryText :where(h1, h2, h3, h4, h5, h6) {
+  margin: 12px 0 5px;
+  font-size: 13.5px;
+  line-height: 20px;
+}
+
+.entry .entryText :where(ul, ol) {
+  margin: 6px 0;
+  padding-left: 20px;
+}
+
+.entry .entryText li:not(:first-child) {
+  margin-top: 3px;
+}
+
+.entry .entryText li > :where(ul, ol) {
+  margin: 3px 0;
+}
+
+.entry .entryText blockquote {
+  margin: 6px 0;
+  padding-left: 10px;
+}
+
+.entry .entryText pre {
+  margin: 8px 0;
+}
+
+.entry .entryText hr {
+  margin: 12px 0;
+}
+
+/* The turn being written right now: the room streams it in between polls, so a
+   caret marks the text that is still arriving. It rides the last block the
+   Markdown renderer produced (the wrapper is the renderer's own element), so
+   the caret sits at the end of the prose rather than under the block. */
+.entry[data-streaming='true'] .entryText > :last-child > :last-child::after {
+  content: '';
+  display: inline-block;
+  width: 2px;
+  height: 14px;
+  margin-left: 2px;
+  background: var(--ad-accent, var(--dsw-alias-state-business-primary));
+  vertical-align: -2px;
+  animation: streamCaret 1s steps(2, start) infinite;
+}
+
+@keyframes streamCaret {
+  50% {
+    opacity: 0;
+  }
+}
+
+.streaming {
+  font-size: 10.5px;
+  color: var(--ad-accent, var(--dsw-alias-state-business-primary));
+}
+
+/* ── entry footer ────────────────────────────────────────────────────── */
+
+/* One entry's bottom bar, the session page's message-icon-actions row at the
+   room's smaller scale: the copy action left, the entry's own meta right. The
+   glyph is the session row's 15px one stepped down with the room's text, and
+   the hit target keeps the same round transparent button. */
+.foot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 24px;
+  margin-top: 2px;
+}
+
+.footAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 24px;
+  height: 24px;
+  padding: 5px;
+  border: 0;
+  border-radius: 24px;
+  background: transparent;
+  color: var(--dsw-alias-label-tertiary);
+  cursor: pointer;
+}
+
+.footAction svg {
+  width: 14px;
+  height: 14px;
+}
+
+.footAction:hover {
+  background: var(--dsw-alias-interactive-bg-hover);
+  color: var(--dsw-alias-label-secondary);
+}
+
+/* The meta cluster rides the row's end (the session page's assistant clock),
+   so the operations stay left and the facts stay right. */
+.footMeta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  margin-left: auto;
+  color: var(--dsw-alias-label-tertiary);
+  font-size: 11px;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+.footStat {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.footAt {
+  font-variant-numeric: tabular-nums;
+}
+
+.entry[data-kind='system'] .entryText {
+  color: var(--dsw-alias-label-tertiary);
+  font-size: 12.5px;
+}
+
+/* A speaker's thinking: muted chrome above the speech, the speech stays the entry. */
+.reasoning {
+  margin: 1px 0;
+}
+
+.reasoningRow {
+  min-height: 20px;
+}
+
+.reasoningTitle {
+  font-size: 11.5px;
+  color: var(--dsw-alias-label-tertiary);
+}
+
+.reasoningBody {
+  margin: 2px 0 0;
+  font-size: 12px;
+  line-height: 17px;
+  color: var(--dsw-alias-label-secondary);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* A turn's thinking and calls interleaved in the order they happened: the
+   timeline stacks its segments, and each call row keeps the compact tool-row
+   idiom it has in the flat list. */
+.flow {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin: 2px 0 0;
+}
+
+.flowReasoning {
+  font-size: 12px;
+  line-height: 17px;
+  color: var(--dsw-alias-label-secondary);
+  overflow-wrap: anywhere;
+}
+
+/* The shared Markdown renderer's root paints its own primary text color, so the
+   thinking's muted color is restated there; inheritance alone loses to it. */
+.flowReasoning > div {
+  color: var(--dsw-alias-label-secondary);
+}
+
+/* The shared Markdown renderer's document spacing is a reading column's, not a
+   thinking stream's, so its blocks tighten to the room's own scale here. */
+.flowReasoning :where(p) {
+  margin: 2px 0;
+}
+
+.flowReasoning :where(h1, h2, h3, h4, h5, h6) {
+  margin: 4px 0 2px;
+  font-size: 12.5px;
+  line-height: 17px;
+}
+
+.flowReasoning :where(ul, ol) {
+  margin: 2px 0;
+  padding-left: 18px;
+}
+
+.flowReasoning :where(li:not(:first-child)) {
+  margin-top: 1px;
+}
+
+.flowReasoning :where(pre) {
+  margin: 3px 0;
+  font-size: 11.5px;
+  line-height: 16px;
+}
+
+.flowReasoning :where(code) {
+  font-size: 11.5px;
+}
+
+.flowReasoning blockquote {
+  margin: 2px 0;
+  padding-left: 8px;
+}
+
+.empty {
+  margin: auto;
+  color: var(--dsw-alias-label-tertiary);
+  font-size: 13px;
+}
+
+/* ── composer ────────────────────────────────────────────────────────── */
+
+/* Pinned to the room's floor: a hairline separates it from the transcript,
+   the input itself keeps its field affordance. */
+.composer {
+  flex: none;
+  display: flex;
+  gap: 8px;
+  padding: 10px 18px 16px;
+  border-top: 1px solid var(--ad-border-light, var(--ad-border, #ececea));
+}
+
+.composer textarea {
+  flex: 1;
+  min-width: 0;
+  resize: vertical;
+  min-height: 40px;
+  max-height: 160px;
+  border: 1px solid var(--ad-border, #e6e6e2);
+  border-radius: 10px;
+  padding: 9px 12px;
+  /* A flex item is sized on its border box; content-box would spend 26px of
+     the row on this field's padding and border and push the send button past
+     the composer's right edge. */
+  box-sizing: border-box;
+  background: var(--ad-bg-main, var(--dsw-alias-bg-layer-3));
+  color: inherit;
+  font: inherit;
+  font-size: 13px;
+  line-height: 19px;
+  outline: none;
+}
+
+.composer textarea:focus-visible {
+  border-color: var(--ad-accent, var(--dsw-alias-state-business-primary));
+}
+
+.composer button {
+  flex: none;
+  border: 0;
+  border-radius: 10px;
+  padding: 0 18px;
+  background: var(--ad-accent, var(--dsw-alias-state-business-primary));
+  color: #fff;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.composer button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* While a speaker generates this button stops the round instead of sending:
+   a destructive action, so it reads as one rather than as the primary send. */
+.composer button[data-action='interrupt'] {
+  background: var(--dsw-alias-state-error-primary);
+}
+
+/* ── the composer's @ list ───────────────────────────────────────────── */
+
+/* The Menu primitive's own anchor span owns this flex slot; the button inside
+   it is the composer's second control, so the field keeps the row's remainder. */
+.mentionAnchor {
+  flex: none;
+  display: flex;
+}
+
+/* The @ control: the field's box rather than the primary action's, because it
+   opens a list instead of committing the draft. It outranks the send button's
+   `button`-level rule by element-plus-class specificity, which is why the two
+   selectors differ in shape. */
+.composer .mentionButton {
+  flex: none;
+  width: 40px;
+  box-sizing: border-box;
+  border: 1px solid var(--ad-border, #e6e6e2);
+  border-radius: 10px;
+  padding: 0;
+  background: var(--ad-bg-main, var(--dsw-alias-bg-layer-3));
+  color: var(--dsw-alias-label-secondary);
+  font-size: 14px;
+  line-height: 1;
+}
+
+.composer .mentionButton:hover {
+  color: var(--dsw-alias-label-primary);
+  border-color: var(--ad-accent, var(--dsw-alias-state-business-primary));
+}
+
+/* The portaled list is a card over the transcript: at most the roster's own
+   length, scrolling past it, and wide enough for the longest shipped name. */
+.mentionList {
+  min-width: 168px;
+  max-height: 240px;
+}
+
+.hint {
+  margin: 0;
+  color: var(--dsw-alias-label-tertiary);
+  font-size: 11.5px;
+  line-height: 16px;
+}
+
+.failure {
+  color: var(--dsw-alias-state-error-primary);
+  font-size: 13px;
+}
+
+/* ── open-table setup ────────────────────────────────────────────────── */
+
+.setup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid var(--ad-border, #e6e6e2);
+  border-radius: 10px;
+  padding: 12px 14px;
+  background: var(--ad-bg-main, var(--dsw-alias-bg-layer-3));
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+}
+
+.setupRow {
+  display: flex;
+  gap: 8px;
+}
+
+.depthOption {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  gap: 3px;
+  border: 1px solid var(--ad-border, #e6e6e2);
+  border-radius: 10px;
+  padding: 9px 11px;
+  background: var(--ad-bg-main, var(--dsw-alias-bg-layer-3));
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.depthOption[data-selected='true'] {
+  border-color: var(--ad-accent, var(--dsw-alias-state-business-primary));
+  background: var(--dsw-alias-bg-layer-1);
+}
+
+.depthName {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.depthHint {
+  color: var(--dsw-alias-label-tertiary);
+  font-size: 11.5px;
+  line-height: 16px;
+}
+
+.setupField {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 140px;
+  font-size: 11.5px;
+  color: var(--dsw-alias-label-tertiary);
+}
+
+.setupFieldWide {
+  flex: 1 1 260px;
+}
+
+.setupField input,
+.setupField select {
+  border: 1px solid var(--ad-border, #e6e6e2);
+  border-radius: 7px;
+  padding: 5px 8px;
+  background: var(--dsw-alias-bg-layer-1);
+  color: var(--dsw-alias-label-primary);
+  font: inherit;
+  font-size: 12.5px;
+  outline: none;
+}
+
+.setupField input:focus-visible,
+.setupField select:focus-visible {
+  border-color: var(--ad-accent, var(--dsw-alias-state-business-primary));
+}
+
+.formRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.flowActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.formError {
+  color: var(--dsw-alias-state-error-primary);
+  font-size: 12.5px;
+}
+
+.primary,
+.ghost {
+  border-radius: 8px;
+  padding: 5px 14px;
+  font: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
+.primary {
+  border: 1px solid var(--ad-accent, var(--dsw-alias-state-business-primary));
+  background: var(--ad-accent, var(--dsw-alias-state-business-primary));
+  color: #fff;
+}
+
+.ghost {
+  border: 1px solid var(--ad-border, #e6e6e2);
+  background: var(--ad-bg-main, var(--dsw-alias-bg-layer-3));
+  color: var(--dsw-alias-label-secondary);
+}
+
+.primary:disabled,
+.ghost:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.cardDesc {
+  color: var(--dsw-alias-label-secondary);
+  font-size: 12.5px;
+  line-height: 18px;
+}
+
+/* What a deep speaker consulted: one collapsed line naming the count, the
+   sources themselves one bounded row each behind it. Never a paragraph of
+   full URLs across the room. */
+.sources {
+  margin: 2px 0 0;
+}
+
+.sourcesRow {
+  min-height: 20px;
+  gap: 6px;
+}
+
+.sourcesTitle {
+  font-size: 11.5px;
+  color: var(--dsw-alias-label-tertiary);
+}
+
+.sourceList {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin: 2px 0 0;
+  padding: 0 0 0 22px;
+  list-style: none;
+}
+
+.sourceItem {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+  font-size: 11.5px;
+  line-height: 16px;
+}
+
+.sourceTool {
+  flex: none;
+  color: var(--dsw-alias-label-tertiary);
+}
+
+.sourceText {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--dsw-alias-label-tertiary);
+}
+
+.sourceLink {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--dsw-alias-link);
+  text-decoration: none;
+}
+
+.sourceLink:hover,
+.sourceLink:focus {
+  outline: none;
+  text-decoration: underline dotted var(--dsw-alias-link);
+  text-underline-offset: 3px;
+}
+
+.truncated {
+  margin: 2px 0 0;
+  color: var(--dsw-alias-state-warning-primary, #b45309);
+  font-size: 11.5px;
+  line-height: 16px;
+}
+
+/* ── interrupted turns ───────────────────────────────────────────────── */
+
+/* A turn the user stopped mid-flight: what streamed is kept and readable, but
+   the block reads as unfinished — muted, on a recessed surface, with a dashed
+   rule on the left where a user message carries its solid accent one. The
+   speaker card's other three edges stay, so the interrupted turn is still a
+   message in the stack. */
+.entry[data-interrupted='true'] {
+  gap: 6px;
+  padding: 9px 12px 6px;
+  border-left: 2px dashed var(--ad-border, #e6e6e2);
+  border-radius: var(--ad-radius, 10px);
+  background: var(--dsw-alias-bg-layer-1);
+}
+
+.entry[data-interrupted='true'] .entryName {
+  color: var(--dsw-alias-label-tertiary);
+}
+
+.entry[data-interrupted='true'] .entryText {
+  color: var(--dsw-alias-label-secondary);
+}
+
+.interrupted {
+  padding: 0 5px;
+  border-radius: 5px;
+  background: var(--dsw-alias-state-warning-primary, #b45309);
+  color: #fff;
+  font-size: 10px;
+  line-height: 14px;
+}
+
+.interruptedNote {
+  margin: 2px 0 0;
+  color: var(--dsw-alias-state-warning-primary, #b45309);
+  font-size: 11.5px;
+  line-height: 16px;
+}
+
+/* ── tool calls ──────────────────────────────────────────────────────── */
+
+/* What a research window looked up while the turn was written: the session
+   page's tool-row idiom at the room's smaller scale — a state dot, the
+   action's name, one line naming its subject, then the call's state. */
+.tools {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin: 2px 0 3px;
+}
+
+.toolRow {
+  min-height: 20px;
+  gap: 6px;
+}
+
+.toolTitle {
+  flex: none;
+  font-size: 11.5px;
+  color: var(--dsw-alias-label-secondary);
+}
+
+.toolSummary {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--dsw-alias-label-tertiary);
+  font-size: 11.5px;
+}
+
+.toolState {
+  flex: none;
+  margin-left: 2px;
+  color: var(--dsw-alias-label-tertiary);
+  font-size: 10.5px;
+}
+
+/* A failed call's own line carries the failure color; a call the stop caught
+   mid-flight reads as the warning it is. */
+.tool[data-state='error'] .toolState,
+.tool[data-state='error'] .toolTitle {
+  color: var(--dsw-alias-state-error-primary);
+}
+
+.tool[data-state='interrupted'] .toolState {
+  color: var(--dsw-alias-state-warning-primary, #b45309);
+}
+
+.toolBody {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 2px 0 4px 16px;
+}
+
+.toolBodyLabel {
+  color: var(--dsw-alias-label-tertiary);
+  font-size: 10.5px;
+}
+
+.toolCode {
+  margin: 0;
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: var(--dsw-alias-bg-layer-1);
+  color: var(--dsw-alias-label-secondary);
+  font-family: var(--ds-font-family-code);
+  font-size: 11px;
+  line-height: 16px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.seatFlag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--dsw-alias-label-tertiary);
+  font-size: 11.5px;
+}
+
+/* ---- history column (the sidebar.section entry while the page is open) ---- */
+
+.history {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 8px 6px;
+}
+
+.historyTitle {
+  margin: 0 0 2px;
+  color: var(--dsw-alias-label-secondary);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.historyEmpty {
+  margin: 0;
+  color: var(--dsw-alias-label-tertiary);
+  font-size: 11.5px;
+  line-height: 16px;
+}
+
+.historyItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: none;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.historyItem:hover {
+  background: var(--dsw-alias-fill-secondary);
+}
+
+.historyItem[data-selected='true'] {
+  border-color: var(--dsw-alias-accent-primary);
+  background: var(--dsw-alias-fill-secondary);
+}
+
+.historyMeta {
+  color: var(--dsw-alias-label-tertiary);
+  font-size: 11px;
+  line-height: 14px;
+}
+
+/* The live row's chips lead its meta line: the first names the row as the open
+   table, the second reports a round being driven right now. */
+.historyCurrentBadge,
+.historyBusyBadge {
+  display: inline-block;
+  margin-right: 5px;
+  padding: 0 5px;
+  border-radius: 5px;
+  font-size: 10px;
+  line-height: 14px;
+  vertical-align: 1px;
+}
+
+.historyCurrentBadge {
+  background: var(--dsw-alias-fill-secondary);
+  color: var(--dsw-alias-label-secondary);
+}
+
+.historyBusyBadge {
+  background: var(--ad-accent-soft, var(--dsw-specific-bubble));
+  color: var(--ad-accent, var(--dsw-alias-state-business-primary));
+}
+
+.historyTopic {
+  color: var(--dsw-alias-label-primary);
+  font-size: 11.5px;
+  line-height: 15px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+}
+
+.historyCurrent {
+  margin-top: 4px;
+  padding: 5px 8px;
+  border: 1px solid var(--dsw-alias-border-secondary);
+  border-radius: 8px;
+  background: none;
+  color: var(--dsw-alias-accent-primary);
+  font-size: 11.5px;
+  cursor: pointer;
+}
+
+/* ---- the deep table's continue-a-conversation picker ---- */
+
+.seedPicker {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px 0 0;
+  border-top: 1px solid var(--dsw-alias-border-secondary);
+}

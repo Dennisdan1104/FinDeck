@@ -1,0 +1,624 @@
+/* Every color resolves through a `--dsw-alias-*` token. Bare `--border` /
+ * `--surface` / `--text-*` names, which nothing in this app defines, would
+ * render the light-mode literals written as their fallbacks and stay light
+ * under the dark theme. */
+
+/* No width cap: this page is hosted both in the settings dialog and as a
+   full-page section, and the latter gives it the whole main area. */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: var(--dsw-alias-label-primary);
+}
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.headText {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.headActions {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+}
+
+.title {
+  margin: 0;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  color: var(--dsw-alias-label-primary);
+}
+
+.intro {
+  margin: 0;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--dsw-alias-label-tertiary);
+}
+
+.notice {
+  margin: 0;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--dsw-alias-state-warn-label);
+}
+
+.empty {
+  margin: 12px 0 0;
+  padding: 12px;
+  border: 1px dashed var(--dsw-alias-border-l3);
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--dsw-alias-label-tertiary);
+  text-align: center;
+}
+
+.rows {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.row {
+  border: 0.5px solid var(--dsw-alias-border-l4);
+  border-radius: 16px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  list-style: none;
+}
+
+/* A stopped server stays visible and fully legible: the switch and the status
+   word carry the fact, and dimming the row would make the metadata a disabled
+   reader cannot check. */
+.rowDisabled {
+  background: var(--dsw-alias-bg-module-platform);
+}
+
+.rowHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.rowToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  cursor: pointer;
+}
+
+.checkbox {
+  box-sizing: border-box;
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--dsw-alias-brand-primary);
+  cursor: pointer;
+}
+
+.checkbox:disabled {
+  cursor: default;
+  opacity: 0.4;
+}
+
+.rowName {
+  font-family: var(--ds-font-family-code);
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+  color: var(--dsw-alias-label-primary);
+  overflow-wrap: anywhere;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.statusDot {
+  box-sizing: border-box;
+  display: inline-block;
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  corner-shape: round;
+  background: var(--dsw-alias-label-tertiary);
+}
+
+.toneOnline {
+  background: var(--dsw-alias-state-success-primary);
+}
+
+.toneOffline {
+  background: var(--dsw-alias-label-dimmed);
+}
+
+.tonePending {
+  background: var(--dsw-alias-state-warn-primary);
+}
+
+.toneError {
+  background: var(--dsw-alias-state-error-primary);
+}
+
+.toneDisabled {
+  background: var(--dsw-alias-border-l3);
+}
+
+.statusLabel {
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--dsw-alias-label-secondary);
+}
+
+.tag {
+  flex: none;
+  padding: 1px 6px;
+  border: 0.5px solid var(--dsw-alias-border-l3);
+  border-radius: 4px;
+  font-size: 11px;
+  line-height: 16px;
+  color: var(--dsw-alias-label-secondary);
+}
+
+.rowActions {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.confirm {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 6px 0 2px;
+}
+
+.confirmText {
+  margin: 0;
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--dsw-alias-state-error-primary);
+}
+
+/* Two columns of label/value pairs, so the metadata block stays scannable
+   without a heading row of its own. */
+.facts {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 2px 8px;
+  margin: 2px 0 0;
+}
+
+.factLabel {
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--dsw-alias-label-tertiary);
+}
+
+.factValue {
+  margin: 0;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--dsw-alias-label-secondary);
+  overflow-wrap: anywhere;
+}
+
+.factCode {
+  font-family: var(--ds-font-family-code);
+}
+
+.tools {
+  border-top: 0.5px solid var(--dsw-alias-border-l2);
+  padding-top: 8px;
+}
+
+/* Native disclosure marker replaced by a rotating chevron: the built-in
+   triangle differs per engine and cannot take the label color. */
+.toolsSummary {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  padding: 2px 4px;
+  margin-left: -4px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 500;
+  color: var(--dsw-alias-label-secondary);
+  list-style: none;
+}
+
+.toolsSummary::-webkit-details-marker {
+  display: none;
+}
+
+.toolsSummary::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-right: 1.5px solid currentcolor;
+  border-bottom: 1.5px solid currentcolor;
+  transform: rotate(-45deg) translate(-1px, -1px);
+  transition: transform 120ms ease;
+}
+
+.tools[open] > .toolsSummary::before {
+  transform: rotate(45deg) translate(-1px, -1px);
+}
+
+.toolsSummary:hover {
+  color: var(--dsw-alias-label-primary);
+}
+
+.toolList {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tool {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px 6px;
+  border-radius: 6px;
+  background: var(--dsw-alias-bg-module-platform);
+}
+
+.toolName {
+  font-family: var(--ds-font-family-code);
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--dsw-alias-label-primary);
+  overflow-wrap: anywhere;
+}
+
+.toolDescription {
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--dsw-alias-label-tertiary);
+}
+
+/* Editing surface: a filled module on the panel, matching the settings
+   selector fill rather than adding another outline inside the row. */
+.editor {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.editorHeader {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.editorTitle {
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+  color: var(--dsw-alias-label-primary);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fieldLabel {
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 500;
+  color: var(--dsw-alias-label-secondary);
+}
+
+.hint {
+  margin: 0;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--dsw-alias-label-tertiary);
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* `box-sizing` on every control here: the app has no global border-box reset,
+   so without it the outlined variants stand 2px taller than the filled ones
+   they sit beside. */
+.primaryButton,
+.secondaryButton,
+.linkButton {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: 36px;
+  padding: 0 14px;
+  border: none;
+  border-radius: 18px;
+  font: inherit;
+  font-size: 14px;
+  line-height: 22px;
+  cursor: pointer;
+}
+
+.primaryButton {
+  background: var(--dsw-alias-button-primary-fill);
+  color: var(--dsw-alias-label-primary-foreground);
+}
+
+.primaryButton:hover:not(:disabled) {
+  background: var(--dsw-alias-button-primary-hover);
+}
+
+.secondaryButton {
+  border: 0.5px solid var(--dsw-alias-border-l3);
+  background: transparent;
+  color: var(--dsw-alias-label-primary);
+}
+
+.secondaryButton:hover:not(:disabled) {
+  background: var(--dsw-alias-interactive-bg-hover-solid);
+}
+
+.linkButton {
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 14px;
+  background: transparent;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--dsw-alias-label-secondary);
+}
+
+.linkButton:hover:not(:disabled) {
+  background: var(--dsw-alias-interactive-bg-hover);
+  color: var(--dsw-alias-label-primary);
+}
+
+.linkButtonDanger:hover:not(:disabled) {
+  background: var(--dsw-alias-interactive-bg-hover-danger);
+  color: var(--dsw-alias-state-error-primary);
+}
+
+.dangerButton:not(:disabled) {
+  border-color: var(--dsw-alias-state-error-primary);
+  color: var(--dsw-alias-state-error-primary);
+}
+
+.primaryButton:disabled,
+.secondaryButton:disabled,
+.linkButton:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.primaryButton:focus-visible,
+.secondaryButton:focus-visible,
+.linkButton:focus-visible,
+.checkbox:focus-visible,
+.toolsSummary:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--dsw-alias-border-l3);
+}
+
+.input,
+.textarea {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0 10px;
+  border: 0.5px solid var(--dsw-alias-border-l4);
+  border-radius: 8px;
+  font: inherit;
+  font-size: 14px;
+  line-height: 22px;
+  background: var(--dsw-alias-bg-layer-1);
+  color: var(--dsw-alias-label-primary);
+}
+
+.input {
+  height: 32px;
+}
+
+.textarea {
+  padding: 6px 10px;
+  font-family: var(--ds-font-family-code);
+  font-size: 13px;
+  line-height: 20px;
+  resize: vertical;
+}
+
+/* Enum pickers hold a handful of short options; a field-width dropdown reads
+   as a text field the user is expected to fill. */
+select.input {
+  max-width: 240px;
+  cursor: pointer;
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: var(--dsw-alias-brand-primary);
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--dsw-alias-label-dimmed);
+}
+
+.input:disabled,
+.textarea:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* Select variant of .input: replaces the OS arrow (which sits flush against
+   the right edge) with the shared 12px chevron inset like the composer's
+   .select chips; the right pad reserves its cell. */
+.selectInput {
+  appearance: none;
+  padding-right: 32px;
+  /* Data-URI SVGs cannot resolve CSS variables; #81858C is the caption gray
+     shared by both themes. */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='%2381858C' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px 12px;
+}
+
+.error {
+  margin: 0;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--dsw-alias-state-error-primary);
+}
+
+/* Templates block: compact suggestion cards below the configured rows; the
+   prefill flow ends in the ordinary editor, so the cards carry no form. */
+.templates {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+  padding-top: 12px;
+  border-top: 0.5px solid var(--dsw-alias-border-l2);
+}
+
+.templatesTitle {
+  margin: 0;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+  color: var(--dsw-alias-label-primary);
+}
+
+.templateCards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 8px;
+}
+
+.templateCard {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 12px;
+  border: 0.5px solid var(--dsw-alias-border-l4);
+  border-radius: 12px;
+  list-style: none;
+}
+
+.templateHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.templateLabel {
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: 500;
+  color: var(--dsw-alias-label-primary);
+}
+
+.templateHomepage {
+  margin-left: auto;
+  font-family: var(--ds-font-family-code);
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--dsw-alias-label-tertiary);
+  text-decoration: none;
+}
+
+.templateHomepage:hover {
+  color: var(--dsw-alias-brand-primary);
+  text-decoration: underline;
+}
+
+.templateDescription {
+  margin: 0;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--dsw-alias-label-secondary);
+  overflow-wrap: anywhere;
+}
+
+.templateBadges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.templateBadges:empty {
+  display: none;
+}
+
+.badge {
+  padding: 1px 6px;
+  border: 0.5px solid var(--dsw-alias-state-warn-primary);
+  border-radius: 4px;
+  font-size: 11px;
+  line-height: 16px;
+  color: var(--dsw-alias-state-warn-label);
+}
+
+.templateActions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: auto;
+}
+
+.templateActions .secondaryButton {
+  height: 28px;
+  padding: 0 12px;
+  border-radius: 14px;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toolsSummary::before {
+    transition: none;
+  }
+}

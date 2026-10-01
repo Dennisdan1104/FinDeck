@@ -1,0 +1,229 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  color: var(--dsw-alias-label-primary);
+}
+
+.title {
+  margin: 0;
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 600;
+}
+
+.blurb {
+  margin: 0;
+  color: var(--dsw-alias-label-tertiary);
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.status {
+  margin: 0;
+  color: var(--dsw-alias-label-tertiary);
+  font-size: 13px;
+}
+
+.failure {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  color: var(--dsw-alias-state-error-primary);
+  font-size: 13px;
+}
+
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid var(--ad-border, #e6e6e2);
+  border-radius: 10px;
+  padding: 12px 14px;
+  background: var(--ad-bg-main, var(--dsw-alias-bg-layer-3));
+}
+
+.cardHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+}
+
+.cardName {
+  overflow: hidden;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sessions {
+  margin-left: auto;
+  color: var(--dsw-alias-label-tertiary);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  min-height: 18px;
+  border-radius: 5px;
+  padding: 0 6px;
+  background: var(--dsw-alias-bg-layer-1);
+  color: var(--dsw-alias-label-secondary);
+  font-size: 11px;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+.chip[data-tone='accent'] {
+  background: color-mix(in srgb, var(--ad-accent, var(--dsw-alias-state-business-primary)) 10%, transparent);
+  color: var(--ad-accent, var(--dsw-alias-state-business-primary));
+}
+
+.chip[data-tone='danger'] {
+  background: color-mix(in srgb, var(--dsw-alias-state-error-primary) 10%, transparent);
+  color: var(--dsw-alias-state-error-primary);
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 2px 10px;
+  margin: 0;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.facts dt {
+  color: var(--dsw-alias-label-tertiary);
+}
+
+.facts dd {
+  margin: 0;
+  overflow: hidden;
+  color: var(--dsw-alias-label-secondary);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.subdirs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.subdirLabel {
+  color: var(--dsw-alias-label-tertiary);
+  font-size: 12px;
+}
+
+.subdir {
+  border: 1px solid var(--ad-border, #e6e6e2);
+  border-radius: 999px;
+  padding: 1px 9px;
+  color: var(--dsw-alias-label-tertiary);
+  font-size: 11.5px;
+  line-height: 17px;
+  white-space: nowrap;
+}
+
+.subdir[data-state='present'] {
+  border-color: color-mix(in srgb, var(--dsw-alias-state-success-primary) 40%, transparent);
+  color: var(--dsw-alias-state-success-primary);
+}
+
+.subdir[data-state='failed'] {
+  border-color: color-mix(in srgb, var(--dsw-alias-state-error-primary) 40%, transparent);
+  color: var(--dsw-alias-state-error-primary);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.presets {
+  border-top: 1px solid var(--ad-border, #e6e6e2);
+  padding-top: 8px;
+}
+
+.presetList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.presetRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 12.5px;
+  line-height: 19px;
+}
+
+.presetName {
+  font-weight: 600;
+}
+
+.presetId {
+  color: var(--dsw-alias-label-tertiary);
+  font-size: 11.5px;
+}
+
+.dialogBody {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dialogField {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: var(--dsw-alias-label-tertiary);
+  font-size: 12px;
+}
+
+.dialogRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.hint {
+  color: var(--dsw-alias-label-tertiary);
+  font-size: 12px;
+  line-height: 18px;
+}

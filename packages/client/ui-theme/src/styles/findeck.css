@@ -1,0 +1,88 @@
+/* FinDeck shell palette (UI rebuild, light theme first). Values are the
+ * frozen prototype tokens (output/ui-prototype/index.html :root) exposed as
+ * one --ad-* scale for every U-series surface; dark-theme overrides land with
+ * the dark-theme work item. The single accent plus the up/down semantic pair
+ * are the only non-grayscale colors; --ad-up/--ad-down ride real numbers only. */
+:root {
+  --ad-bg-side: #fafaf9;
+  --ad-bg-main: #ffffff;
+  --ad-border: #e6e6e2;
+  --ad-border-light: #eeeeea;
+  --ad-text: #26262a;
+  --ad-text-2: #71717a;
+  --ad-text-3: #a1a1aa;
+  --ad-accent: #2f54eb;
+  --ad-accent-soft: #f0f3fe;
+  --ad-accent-border: #dfe6fd;
+  --ad-hover: #f1f0ec;
+  --ad-up: #c2402f;
+  --ad-down: #2e7d52;
+  --ad-tab-well: #f0efec;
+  --ad-avatar-bg: #3f3f46;
+  --ad-radius: 10px;
+  --ad-radius-s: 6px;
+  --ad-dot-border: #d6d6d0;
+  --ad-step-line: #e4e4df;
+  --ad-bg-flow: #fcfcfb;
+}
+
+/* Height of the window-controls band the desktop shell reserves: its hidden
+ * title bar keeps the native minimize/maximize/close buttons as a transparent
+ * Window Controls Overlay, which publishes its own height here. It is declared
+ * in this global sheet because a CSS-Modules sheet rewrites the environment
+ * variable name inside `env()`.
+ * `--dsh-shell-topband` is that band: every column of the shell pads it out at
+ * the top, and its own row of controls (the sidebar toggle) rides it. The value
+ * below is the desktop window's, never below the 32px that row needs; the frame
+ * drops it to zero in a plain browser tab, where the sidebar's first row
+ * carries the toggle instead (ShellFrame.module.css). */
+:root {
+  --dsh-titlebar-height: env(titlebar-area-height, 0px);
+  --dsh-shell-topband: max(32px, var(--dsh-titlebar-height));
+}
+
+/* UA reset: the shell's flat line style assumes borderless buttons and clean
+ * typography; without this, browser defaults (2px outset borders, gray
+ * backgrounds) leak onto every nav item. Scoped to elements, not classes. */
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+/* The UA sheet pads text fields (1px 2px) and sizes them content-box, while
+ * buttons and selects are border-box. Every field here states its own padding
+ * and a width that has to hold at the box edge, so the two fields take the
+ * button default instead — otherwise a collapsed search field paints a 4px
+ * sliver and a width-carrying field overruns its container by its padding. */
+input,
+textarea {
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* dsw → ad remap: the conversation surface (chat view, composer, menus,
+ * dialogs) still styles through the dsh design-platform aliases, so the
+ * FinDeck accent and bubble palette ride in at the alias level — one
+ * definition, every dsh-styled surface recolored. Light theme only; the dark
+ * map keeps the dsh values until the dark-theme work item. */
+body {
+  --dsw-alias-state-business-primary: var(--ad-accent);
+  --dsw-alias-state-business-tertiary: var(--ad-accent-soft);
+  --dsw-alias-link: var(--ad-accent);
+  --dsw-alias-button-info-fill: var(--ad-accent);
+  --dsw-alias-button-info-hover: var(--ad-accent);
+  --dsw-alias-brand-primary-new-colorprimary-new-color: var(--ad-accent);
+  --dsw-specific-bubble: var(--ad-accent-soft);
+  --dsw-specific-bubble-highlight: var(--ad-accent-border);
+}

@@ -1,0 +1,7 @@
+/* Reasoning prose: the folding row's own body already carries the indent, the
+   tertiary tier, and the type, so only the line breaking of raw model text is
+   stated here. */
+.thinkBody {
+  white-space: pre-wrap;
+  word-break: break-word;
+}

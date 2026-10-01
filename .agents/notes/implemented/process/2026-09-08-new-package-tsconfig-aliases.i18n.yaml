@@ -1,0 +1,6 @@
+# Bilingual-pair consistency record (docs/i18n/README.md): the git blob hash of each
+# side as of the last confirmed-consistent state. Both languages carry equal authority;
+# after editing either side, bring the other along and update both hashes by hand
+# (`git hash-object <path>`); nothing verifies this record.
+2026-09-08-new-package-tsconfig-aliases.md: 0e64e432258d46c5fbaf4bb274ec9027109abe94
+2026-09-08-new-package-tsconfig-aliases.zh.md: 0ab4e0294679a1202591916edf0bae06038dd390

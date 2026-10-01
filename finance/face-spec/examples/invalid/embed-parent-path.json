@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "title": "embed 路径越出版本目录",
+  "blocks": [
+    {
+      "type": "embed",
+      "title": "非法：path 含 ..",
+      "path": "../secrets/leak.html"
+    }
+  ]
+}

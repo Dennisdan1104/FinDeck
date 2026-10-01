@@ -1,0 +1,27 @@
+name: 研究模式
+description: 功能完整的 AI 金融研究员——拉数据、跑模型、回测、上网核实、出报告，全程可审批可打断。
+order: 1
+mode_kind: work
+flow:
+  steps:
+    - id: plan
+      label: 规划
+      model: default
+    - id: fetch-data
+      label: 取数
+      model: default
+    - id: analyze-model
+      label: 分析建模
+      model: default
+    - id: validate
+      label: 验证
+      model: default
+      cluster:
+        strategy: synthesize
+        perspectives:
+          - "数据与口径复核"
+          - "逻辑链路与反例审查"
+          - "结论可操作性质疑"
+    - id: report
+      label: 报告
+      model: default

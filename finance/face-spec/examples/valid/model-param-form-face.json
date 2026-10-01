@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "title": "沪深300月频因子模型（样例模型脸）",
+  "blocks": [
+    {
+      "type": "metric-card",
+      "title": "样本外 IC",
+      "verb": "evaluate",
+      "params": { "split": "oos" },
+      "format": "0.000"
+    },
+    {
+      "type": "line-chart",
+      "title": "样本外净值",
+      "verb": "evaluate",
+      "params": { "split": "oos", "field": "nav" },
+      "x": "date",
+      "y": "nav"
+    },
+    {
+      "type": "param-form",
+      "title": "重训参数",
+      "verb": "retrain",
+      "fields": [
+        { "name": "start", "label": "起始日期", "type": "string", "default": "2018-01-01" },
+        { "name": "n_estimators", "label": "树数量", "type": "number", "default": 300 },
+        { "name": "shuffle", "label": "打乱样本", "type": "boolean", "default": false },
+        { "name": "objective", "label": "目标函数", "type": "select", "default": "regression", "options": ["regression", "binary"] }
+      ]
+    },
+    {
+      "type": "action-button",
+      "title": "开始重训",
+      "verb": "retrain",
+      "params": { "async": true },
+      "confirm": true
+    }
+  ]
+}
