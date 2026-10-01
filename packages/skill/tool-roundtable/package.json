@@ -2,9 +2,7 @@
   "name": "@deepseek-ai/dsh-tool-roundtable",
   "description": "Model-facing roundtable_list and roundtable_read tools over the durable roundtable transcript archive",
   "version": "0.1.0",
-  "publishConfig": {
-    "access": "public"
-  },
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Dennisdan1104/FinDeck.git",

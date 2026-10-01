@@ -305,8 +305,8 @@ The target restorer validates native fields and mandatory cross-event relationsh
 <a id="further-exploration"></a>
 ## Further Exploration
 
-- [Format version and release status](../../../docs/session-format-status.md) — checkout writer and published format authority.
-- [Adding a Session format version](../../../docs/cookbook/adding-a-session-format-version.md) — adjacent-edge integration and validation.
+- [Session format V4 adoption](../../../.agents/notes/implemented/architecture/2026-09-27-session-format-v4-adoption.md) — the accepted V4 transition and the current writer version.
+- [Released Session format migrations](../../../.agents/notes/implemented/architecture/2026-08-31-released-session-format-migrations.md) — adjacent-migration and no-fallback policy.
 - [JSONL persistence](../session-persistence-jsonl/README.md) — immutable generation selection and publication.
 
 -----
@@ -333,9 +333,9 @@ The edge preserves the recorded request prefix. Provider cache availability and 
 <a id="known-limitations-and-deferred-work"></a>
 
 - **Historical converter coverage** — Unsupported source forms may fail without publishing a successor or changing the source. First-party recordings do not enumerate third-party extensions. Later converter fixes may add support after V4 publication if their V4 output remains compatible. Interpreting extra stream-start fields and preparing future delivery generations require a concrete format change.
-- **Accepted V4 transition** — the [checkpoint](../../../docs/session-format-status.md#finalization-record) protects the accepted history. Backward-compatible additions can remain V4 through new acknowledgements; breaking changes require a successor. Already-written V4 files do not rerun this incoming edge, and historical inputs remain intact.
+- **Accepted V4 transition** — the recorded checkpoint protects the accepted history. Backward-compatible additions can remain V4 through new acknowledgements; breaking changes require a successor. Already-written V4 files do not rerun this incoming edge, and historical inputs remain intact.
 - **V5 prerequisite readers** — V4 child evidence currently goes through the installed catalog. A future writer must bind fixed-generation V4 prerequisite reading before changing that catalog. The exported V4 restorer supplies generation-owned checks; full common message admission additionally uses installed Session validation.
-- **Nested historical tool results** — migration currently refuses results containing another tool-result wrapper. The original generation remains intact and no V4 successor is published. A later converter may support evidenced source cases without changing the established V4 format; the [migration cookbook](../../../docs/cookbook/adding-a-session-format-version.md#stages-and-validation) defines that distinction.
+- **Nested historical tool results** — migration currently refuses results containing another tool-result wrapper. The original generation remains intact and no V4 successor is published. A later converter may support evidenced source cases without changing the established V4 format; the [released-format migration policy](../../../.agents/notes/implemented/architecture/2026-08-31-released-session-format-migrations.md) defines that distinction.
 - **Historical extension consumers** — prefixed message and result fields preserve JSON data without activating core fields. A consumer must explicitly understand those fields before interpreting them.
 - **Retained child logs required** — a parent alone cannot recover unrecorded child ids, creation times, or descriptors. Deleted children cannot be reconstructed from tool arguments; existing parent catalog records remain.
 - **Unknown historical modes** — without exactly one supported own descriptor, a missing parent entry records unknown mode. Current reads do not rewrite that entry; opening the child resolves available descriptor information or reports its own error.

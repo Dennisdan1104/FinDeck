@@ -119,9 +119,15 @@ powershell -NoProfile -ExecutionPolicy Bypass -File start-findeck.ps1
 
 base 把 `path: ':memory:'` / `openAt: never` 写在 `schedule` 行下，但 `dsh-schedule` 不导出 `Config`，Loader 对没有配置 schema 的插件原样透传配置，它的 `apply(ctx)` 也不读配置，因此这两个键不配置它；同一组键在出货组合里由 web-app 层挂在 `session-query-sqlite` 行上，其 `openAt: never` 关闭会话内容检索、完全不打开 SQLite 索引，`ctx.sessionQuery` 的精确读取、标题与血缘查询照旧可用。
 
-叠加层由 `--patch` 引入，可重复，按 argv 顺序在每个 profile 层之后生效；`$DSH_HOME/cordis.patch.yml` 是同一套机制的常驻层，用于长期调整。`apps/cli/config/examples/schedule/cordis.yml` 就是一个叠加层：它 `insert` 一行 `time-context`（浏览器时区解析）、再 `insert` 一行 `schedule`，并把 `ui-schedule` 置为 `disabled: false`。
+叠加层由 `--patch` 引入，可重复，按 argv 顺序在每个 profile 层之后生效；`$DSH_HOME/cordis.patch.yml` 是同一套机制的常驻层，用于长期调整。`apps/cli/config/examples/schedule/cordis.yml` 就是一个叠加层：它 `insert` 一行 `time-context`（浏览器时区解析），并把 `ui-schedule` 置为 `disabled: false`；host 侧的 `schedule` 行已由 base 层挂载，叠加层不重复 `insert`（无 patch 级 id 的 `insert` 是无条件追加，重复的 loader entry id 会让加载失败）。
 
-该示例按现状叠加不上：base 已有 `id: schedule` 行，而无 patch 级 id 的 `insert` 是无条件追加、既不去重也不替换既有行，Loader 加载插件树时以 `duplicate loader entry id: schedule` 失败，所以 `pnpm dsh web --patch apps/cli/config/examples/schedule/cordis.yml` 起不来；删掉其中重复的 `insert` `schedule` 一条，其余两条即可生效。只看合成结果而不启服务（其中会出现两行 `- id: schedule`）：
+直接叠加该示例即可启用定时任务页：
+
+```powershell
+pnpm dsh web --patch apps/cli/config/examples/schedule/cordis.yml
+```
+
+只看合成结果而不启服务：
 
 ```powershell
 pnpm dsh web --dump-config --patch apps/cli/config/examples/schedule/cordis.yml

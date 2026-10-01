@@ -2,9 +2,7 @@
   "name": "@deepseek-ai/dsh-ptc-runtime-node",
   "description": "Sandboxed Node process implementation of the DeepSeek Harness PTC execution capability",
   "version": "0.1.3-alpha.1",
-  "publishConfig": {
-    "access": "public"
-  },
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Dennisdan1104/FinDeck.git",

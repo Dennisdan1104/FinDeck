@@ -2,9 +2,7 @@
   "name": "@deepseek-ai/dsh-session-reference",
   "description": "Cross-session snapshot references and durable untrusted model context (ctx.sessionReferenceResolver)",
   "version": "0.1.3-alpha.1",
-  "publishConfig": {
-    "access": "public"
-  },
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Dennisdan1104/FinDeck.git",

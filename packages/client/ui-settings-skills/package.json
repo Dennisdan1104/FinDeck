@@ -2,9 +2,7 @@
   "name": "@deepseek-ai/dsh-client-ui-settings-skills",
   "description": "Skills settings page: the deployment's skill inventory, per-skill enable/disable, and manual rescan",
   "version": "0.1.3-alpha.1",
-  "publishConfig": {
-    "access": "public"
-  },
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Dennisdan1104/FinDeck.git",

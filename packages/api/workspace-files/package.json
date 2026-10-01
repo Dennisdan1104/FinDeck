@@ -2,9 +2,7 @@
   "name": "@deepseek-ai/dsh-api-workspace-files",
   "description": "Workspace file service and Client resource provider: bounded reads, directory listing, and live metadata over the workspaceFiles Remote namespace",
   "version": "0.1.6-alpha.2",
-  "publishConfig": {
-    "access": "public"
-  },
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Dennisdan1104/FinDeck.git",

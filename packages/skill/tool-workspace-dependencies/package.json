@@ -2,9 +2,7 @@
   "name": "@deepseek-ai/dsh-tool-workspace-dependencies",
   "description": "The load_workspace_dependencies tool: absolute paths into a bundled Python, Node.js, and pnpm payload",
   "version": "0.1.6-alpha.2",
-  "publishConfig": {
-    "access": "public"
-  },
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Dennisdan1104/FinDeck.git",

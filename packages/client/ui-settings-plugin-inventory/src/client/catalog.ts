@@ -178,7 +178,6 @@ export const PLUGIN_CATALOG: Record<string, PluginCatalogRow> = {
   'ui-agent-preset': { group: 'interface', descriptionKey: 'descUiAgentPreset' },
   'ui-user-questions': { group: 'interface', descriptionKey: 'descUiUserQuestions' },
   'ui-trajectory': { group: 'interface', descriptionKey: 'descUiTrajectory' },
-  'ui-brand-official': { group: 'interface', descriptionKey: 'descUiBrandOfficial' },
   'ui-settings': { group: 'interface', descriptionKey: 'descUiSettings' },
   'ui-settings-general': { group: 'interface', descriptionKey: 'descUiSettingsGeneral' },
   'ui-settings-models': { group: 'interface', descriptionKey: 'descUiSettingsModels' },

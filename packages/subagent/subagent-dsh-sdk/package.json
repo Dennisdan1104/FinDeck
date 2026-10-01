@@ -2,9 +2,7 @@
   "name": "@deepseek-ai/dsh-subagent-dsh-sdk",
   "description": "Out-of-process SDK subagent backend: drives a child DeepSeek Harness runtime subprocess over stdio JSON-RPC through the TypeScript SDK client",
   "version": "0.1.3-alpha.1",
-  "publishConfig": {
-    "access": "public"
-  },
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Dennisdan1104/FinDeck.git",

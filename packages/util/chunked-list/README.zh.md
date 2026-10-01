@@ -61,7 +61,7 @@ console.log([...iterateChunkedList(second)])
 ## 进一步探索
 
 - [工具包映射](../README.zh.md)——共享原语。
-- [Subagent 包](../subagent/subagent/README.zh.md)——消费此集合的目录 projection。
+- [Subagent 包](../../subagent/subagent/README.zh.md)——消费此集合的目录 projection。
 
 -----
 

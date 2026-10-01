@@ -2,9 +2,7 @@
   "name": "@deepseek-ai/dsh-client-ui-assets",
   "description": "The asset hub: one settings section over the assetLibrary/assetFace/runVerb/assetBrief Remotes, rendering the asset grid and list, faces with their 8 block types, and the lineage graph",
   "version": "0.1.2-rc.1",
-  "publishConfig": {
-    "access": "public"
-  },
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Dennisdan1104/FinDeck.git",

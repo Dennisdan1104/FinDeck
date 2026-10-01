@@ -48,7 +48,6 @@ The kernel packages boot and serve the page; the UI feature packages present it.
 | [`ui-sidebar-right/`](ui-sidebar-right/README.md) | Owns the right Sidebar's docking surface, tab-type registry, and navigation controller | `ctx.sidebarRight` / `ctx.sidebarRightTabs` |
 | [`ui-sidebar-files/`](ui-sidebar-files/README.md) | Registers the right Sidebar's workspace file-navigator tab type | — |
 | [`ui-sidebar-terminal/`](ui-sidebar-terminal/README.md) | Registers the right Sidebar's interactive terminal tab type | — |
-| [`ui-brand-official/`](ui-brand-official/README.md) | Carries the official DeepSeek name and marks for the generic browser-brand slots; no FinDeck bundle assembles it | — |
 | [`ui-workspace/`](ui-workspace/README.md) | Provides workspace selection and creation surfaces | — |
 | [`ui-conversation/`](ui-conversation/README.md) | Presents the active conversation and its input surface | — |
 | [`ui-chat/`](ui-chat/README.md) | Projects and renders the Chat conversation target | — |

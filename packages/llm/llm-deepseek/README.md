@@ -209,8 +209,8 @@ These limits define where the adapter stops and future work begins. They are cur
 - **Requests use raw `fetch`, not `@cordisjs/plugin-http`** — no shared proxy or interception configuration.
 - **Plugin-added content block types are skipped** — core text and supported image blocks are serialized, and empty tool output crosses the wire as the literal `(no output)`.
 - **Images are input-only durable attachments** — direct external URLs and assistant image output are not supported; DeepSeek input normally uses the Files API and uses inline base64 only for per-request recovery.
-- The default catalog pre-registers `deepseek-flash` and its text/image and in-history capabilities without probing gateway availability. Requests can fail with `INVALID_REQUEST` until the gateway enables the id. With `DEEPSEEK_API_KEY` and a supporting gateway configured, `DEEPSEEK_FLASH_E2E=1` enables the Chat Completions check in [this package's e2e suite](tests/adapter.e2e.ts).
-- The [Messages system-update e2e checks](tests/messages/adapter.e2e.ts) require `DEEPSEEK_IN_HISTORY_MODEL` to name a supported model, such as `deepseek-flash`, and run with `high` effort. They skip when that variable is unset or empty; ordinary `off` text checks remain enabled with credentials. Known instruction-following instability with thinking disabled makes these system-update checks unsuitable for `off`.
+- The default catalog pre-registers `deepseek-flash` and its text/image and in-history capabilities without probing gateway availability. Requests can fail with `INVALID_REQUEST` until the gateway enables the id. With `DEEPSEEK_API_KEY` and a supporting gateway configured, `DEEPSEEK_FLASH_E2E=1` enables the Chat Completions check in this package's e2e suite.
+- The Messages system-update e2e checks require `DEEPSEEK_IN_HISTORY_MODEL` to name a supported model, such as `deepseek-flash`, and run with `high` effort. They skip when that variable is unset or empty; ordinary `off` text checks remain enabled with credentials. Known instruction-following instability with thinking disabled makes these system-update checks unsuitable for `off`.
 
 <a id="dev-note"></a>
 ### Dev Note

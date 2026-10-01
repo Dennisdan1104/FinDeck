@@ -2370,7 +2370,7 @@ Source: [`packages/settings/settings-file/src/index.ts:22`](../packages/settings
 ```ts config-catalog
 /** Plugin config (all optional — the built-in facts resolve without defaults). */
 export interface Config {
-  /** DeepSeek Harness home directory exposed as `DSH_HOME`; defaults to `$DSH_HOME` or `~/.findeck`. */
+  /** FinDeck home directory exposed as `DSH_HOME`; defaults to `$DSH_HOME` or `~/.findeck`. */
   dshHome?: string
 }
 ```
@@ -2404,7 +2404,7 @@ export interface Config {
   providerName?: string
   /** Whether project and user roots are included around custom roots. */
   includeDefaultRoots?: boolean
-  /** DeepSeek Harness config root. Defaults to `$DSH_HOME` or `~/.findeck`. */
+  /** FinDeck config root. Defaults to `$DSH_HOME` or `~/.findeck`. */
   dshHome?: string
   /** Shared agent config root. Defaults to `$DSH_AGENTS_HOME` or `~/.agents`. */
   agentsHome?: string
@@ -2814,7 +2814,7 @@ Source: [`packages/subagent/subagent-spawn-in-process/src/index.ts:25`](../packa
 ```ts config-catalog
 /** Plugin config: the deployment-authored fragment of the system prompt (see {@link Config.personaPrefix} for its contract). */
 export interface Config {
-  /** Include the fixed DeepSeek Harness identity before the deployment persona (default true). */
+  /** Include the fixed FinDeck identity before the deployment persona (default true). */
   includeHarnessIdentity?: boolean
   /** Include dynamic runtime-context snapshots in model history (default true). */
   includeRuntimeContext?: boolean
@@ -3869,7 +3869,6 @@ These load from a `cordis.yml` entry with no `config:` block; they declare no co
 - `@deepseek-ai/dsh-client-ui-approval` ([`packages/client/ui-approval/src/index.ts`](../packages/client/ui-approval/src/index.ts))
 - `@deepseek-ai/dsh-client-ui-assets` ([`packages/client/ui-assets/src/index.ts`](../packages/client/ui-assets/src/index.ts))
 - `@deepseek-ai/dsh-client-ui-attachment` ([`packages/client/ui-attachment/src/index.ts`](../packages/client/ui-attachment/src/index.ts))
-- `@deepseek-ai/dsh-client-ui-brand-official` ([`packages/client/ui-brand-official/src/index.ts`](../packages/client/ui-brand-official/src/index.ts))
 - `@deepseek-ai/dsh-client-ui-chat` ([`packages/client/ui-chat/src/index.ts`](../packages/client/ui-chat/src/index.ts))
 - `@deepseek-ai/dsh-client-ui-commands` ([`packages/client/ui-commands/src/index.ts`](../packages/client/ui-commands/src/index.ts))
 - `@deepseek-ai/dsh-client-ui-conversation` ([`packages/client/ui-conversation/src/index.ts`](../packages/client/ui-conversation/src/index.ts))

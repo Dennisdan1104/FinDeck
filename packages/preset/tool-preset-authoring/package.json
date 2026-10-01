@@ -2,9 +2,7 @@
   "name": "@deepseek-ai/dsh-tool-preset-authoring",
   "description": "Model-facing tools for authoring session modes: list the mode roster, then create or rewrite a mode's name, description, and flow steps without touching its plugin composition",
   "version": "0.1.2-rc.1",
-  "publishConfig": {
-    "access": "public"
-  },
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Dennisdan1104/FinDeck.git",

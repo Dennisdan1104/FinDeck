@@ -2,9 +2,7 @@
   "name": "@deepseek-ai/dsh-roundtable",
   "description": "Roundtable discussion capability: identity roster, settings-backed custom speakers, and the controller state machine",
   "version": "0.1.2-rc.1",
-  "publishConfig": {
-    "access": "public"
-  },
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Dennisdan1104/FinDeck.git",

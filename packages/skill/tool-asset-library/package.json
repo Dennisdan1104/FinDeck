@@ -2,9 +2,7 @@
   "name": "@deepseek-ai/dsh-tool-asset-library",
   "description": "Model-facing tools over the FinDeck global asset workspace: discovery, inspection, and in-venv execution of archived research assets",
   "version": "0.1.2-rc.1",
-  "publishConfig": {
-    "access": "public"
-  },
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Dennisdan1104/FinDeck.git",

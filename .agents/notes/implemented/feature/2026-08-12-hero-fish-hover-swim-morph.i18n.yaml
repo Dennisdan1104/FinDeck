@@ -2,5 +2,5 @@
 # side as of the last confirmed-consistent state. Both languages carry equal authority;
 # after editing either side, bring the other along and update both hashes by hand
 # (`git hash-object <path>`); nothing verifies this record.
-2026-08-12-hero-fish-hover-swim-morph.md: c485f94e244040d7e72838065f977e698391c00d
-2026-08-12-hero-fish-hover-swim-morph.zh.md: 46fa50732bf98aa5e3afb503e84f8e23001499b2
+2026-08-12-hero-fish-hover-swim-morph.md: 2ec6aae1f4da3b44597b0964d1caaea22b4bf4f1
+2026-08-12-hero-fish-hover-swim-morph.zh.md: df8dd74de41db479ee6ac69c63c85a3c3e3709ba

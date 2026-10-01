@@ -43,7 +43,7 @@ The generated [configuration catalog](../../../docs/config-catalog.md#deepseek-a
 
 ### What PTC mode requires
 
-Selecting `ptc` or `both` needs a composed PTC runtime (`ctx.ptcRuntime`) whose language has a registered SDK renderer — the TypeScript runtime ships via [`dsh-ptc-runtime-node`](../../../ptc-runtime/ptc-runtime-node/README.md), and both the TypeScript and Python SDK renderers are built into `dsh-tools`. A preset that selects a PTC mode against a deployment composing no such runtime refuses to mount, naming this row, so the failure lands where the operator can act instead of at the session's first request.
+Selecting `ptc` or `both` needs a composed PTC runtime (`ctx.ptcRuntime`) whose language has a registered SDK renderer — the TypeScript runtime ships via [`dsh-ptc-runtime-node`](../../ptc-runtime/ptc-runtime-node/README.md), and both the TypeScript and Python SDK renderers are built into `dsh-tools`. A preset that selects a PTC mode against a deployment composing no such runtime refuses to mount, naming this row, so the failure lands where the operator can act instead of at the session's first request.
 
 ### One presentation per agent
 
@@ -85,7 +85,7 @@ The package-level contract is enough for most consumers; read these when you nee
 
 - [tools package](../tools/README.md) — the tool presentation modes and `presentAs` API.
 - [agent-presets package](../../preset/agent-presets/README.md) — how presets compose agents and their standing mounts.
-- [PTC runtime Node package](../../../ptc-runtime/ptc-runtime-node/README.md) — the TypeScript runtime a PTC mode needs.
+- [PTC runtime Node package](../../ptc-runtime/ptc-runtime-node/README.md) — the TypeScript runtime a PTC mode needs.
 - [PTC mode executor-collapse note](../../../.agents/notes/implemented/bug-fix/2026-08-07-ptc-executor-collapse.md) — why the announced and callable surfaces stay the same.
 - [Core group map](../README.md) — how the core packages compose.
 

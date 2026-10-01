@@ -2,5 +2,5 @@
 # side as of the last confirmed-consistent state. Both languages carry equal authority;
 # after editing either side, bring the other along and update both hashes by hand
 # (`git hash-object <path>`); nothing verifies this record.
-0003-web-agent-gui-feedback-loop.md: aad9b41142683c3520adb65e56b4d0d0151d015f
-0003-web-agent-gui-feedback-loop.zh.md: 1f7b0bb3071fa1ef2027229dc3656662011babc8
+0003-web-agent-gui-feedback-loop.md: 469ca3e8fef98b6c33cd3b2e69b54a8c1b462936
+0003-web-agent-gui-feedback-loop.zh.md: 58d7f571dd648b2a2838609da880736f0e1f1ba8

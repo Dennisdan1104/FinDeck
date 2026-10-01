@@ -2,9 +2,7 @@
   "name": "@deepseek-ai/dsh-tool-memory",
   "description": "Model-facing two-level memory tools: durable markdown entries under the harness home or the calling project's memory directory",
   "version": "0.1.2-rc.1",
-  "publishConfig": {
-    "access": "public"
-  },
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Dennisdan1104/FinDeck.git",

@@ -48,7 +48,6 @@ kind: "package-group"
 | [`ui-sidebar-right/`](ui-sidebar-right/README.zh.md) | 拥有右侧 Sidebar 的停靠面、tab 类型注册表与导航控制器 | `ctx.sidebarRight` / `ctx.sidebarRightTabs` |
 | [`ui-sidebar-files/`](ui-sidebar-files/README.zh.md) | 注册右侧 Sidebar 的工作区文件导航器 tab 类型 | — |
 | [`ui-sidebar-terminal/`](ui-sidebar-terminal/README.zh.md) | 注册右侧 Sidebar 的交互式终端 tab 类型 | — |
-| [`ui-brand-official/`](ui-brand-official/README.zh.md) | 承载面向通用浏览器品牌 slot 的官方 DeepSeek 名称与标记；FinDeck 的任何 bundle 都不装配它 | — |
 | [`ui-workspace/`](ui-workspace/README.zh.md) | 提供工作区选择与创建界面 | — |
 | [`ui-conversation/`](ui-conversation/README.zh.md) | 展示当前对话及其输入界面 | — |
 | [`ui-chat/`](ui-chat/README.zh.md) | 投影并渲染 Chat 对话 target | — |

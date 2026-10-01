@@ -2,9 +2,7 @@
   "name": "@deepseek-ai/dsh-tool-present",
   "description": "Explicit workspace file delivery declarations for the DeepSeek Harness",
   "version": "0.1.7-rc.2",
-  "publishConfig": {
-    "access": "public"
-  },
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Dennisdan1104/FinDeck.git",

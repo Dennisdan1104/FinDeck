@@ -2,9 +2,7 @@
   "name": "@deepseek-ai/dsh-redblue",
   "description": "Red/blue adversarial review: user-editable red and blue prompts under the rbcheck settings namespace, and the /rb-check command",
   "version": "0.1.2-rc.1",
-  "publishConfig": {
-    "access": "public"
-  },
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Dennisdan1104/FinDeck.git",

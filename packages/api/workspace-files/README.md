@@ -121,7 +121,7 @@ Typert generates the Host and Client Remote artifacts exposed by `./typert` and 
 - [Remote assembly](../../api/remotes/README.md) — how Client packages reach the `workspaceFiles` namespace.
 - [Client resources](../../client/resources/README.md) — the resource model, `useResource`, pins, and provider lifetime.
 - [Workspace path helpers](../../util/workspace-path/README.md) — `fileAddressFor` and `parseFileAddress`, the `dsh-resource://file/…` address grammar both ends share.
-- [Sidebar text preview](../../client/ui-sidebar-documentpreview/README.md) — the tab type that follows a file through the `file` provider and reads its pages.
+- Sidebar text preview — the tab type that follows a file through the `file` provider and reads its pages.
 
 -----
 

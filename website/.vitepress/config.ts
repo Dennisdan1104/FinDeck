@@ -205,17 +205,17 @@ const base = process.env.DOCS_BASE ?? '/'
 
 /** Site identity shared by the VitePress configuration and the llms.txt index. */
 const siteIdentity = {
-  title: 'DeepSeek Harness',
+  title: 'FinDeck',
   description: '用于构建 Agent Harness 的插件化 SDK',
 }
 
 /**
- * The DeepSeek wordmark, inlined so its `currentColor` fills follow the active
- * theme. An `<img>` would freeze the mark at the colors the file declares.
+ * The FinDeck mark, inlined so its `currentColor` stroke follows the active
+ * theme. An `<img>` would freeze the mark at the color the file declares.
  */
-const wordmark = readFileSync(resolve(import.meta.dirname, '../public/wordmark.svg'), 'utf8')
+const brandMark = readFileSync(resolve(import.meta.dirname, '../public/mark.svg'), 'utf8')
   .trim()
-  .replace('<svg ', '<svg class="dsh-wordmark" ')
+  .replace('<svg ', '<svg class="dsh-mark" ')
 
 /**
  * Styles the default theme does not provide, carried inline because the site
@@ -230,7 +230,8 @@ const wordmark = readFileSync(resolve(import.meta.dirname, '../public/wordmark.s
  */
 const siteStyle = `
 .dsh-lockup { display: inline-flex; align-items: center; gap: 8px; min-width: 0; }
-.dsh-wordmark { display: block; height: 22px; width: auto; color: var(--vp-c-text-1); }
+.dsh-mark { display: block; height: 20px; width: auto; color: var(--vp-c-brand-1); }
+.dsh-title { font-size: 16px; font-weight: 600; color: var(--vp-c-text-1); white-space: nowrap; }
 .dsh-tag {
   display: inline-flex;
   align-items: center;
@@ -282,14 +283,14 @@ const scrollbarScript = `
 `
 
 /**
- * Navigation-bar title: the DeepSeek wordmark and the release-stage tag.
+ * Navigation-bar title: the FinDeck mark, its name, and the release-stage tag.
  * VitePress renders `siteTitle` as HTML.
  *
  * @param previewTag - Localized release-stage label.
  * @returns Markup placed beside the navigation-bar home link.
  */
 function siteTitle(previewTag: string): string {
-  return `<span class="dsh-lockup">${wordmark}<span class="dsh-tag">${previewTag}</span></span>`
+  return `<span class="dsh-lockup">${brandMark}<span class="dsh-title">${siteIdentity.title}</span><span class="dsh-tag">${previewTag}</span></span>`
 }
 
 export default withMermaid({

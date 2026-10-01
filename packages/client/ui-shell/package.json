@@ -2,9 +2,7 @@
   "name": "@deepseek-ai/dsh-client-ui-shell",
   "description": "FinDeck root shell: sidebar chrome, page routing, details drawer, theme projection",
   "version": "0.1.0-alpha.1",
-  "publishConfig": {
-    "access": "public"
-  },
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Dennisdan1104/FinDeck.git",

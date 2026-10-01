@@ -27,7 +27,7 @@ kind: "package-reference"
 
 与 `ui-conversation` 和 Host 侧的 [workspace-changes](../../deliverables/workspace-changes/README.zh.md) 插件一起挂载本插件；已完成轮次随即以改动文件卡片收尾，位于收尾消息正文与其动作页脚之间。没有可提供的摘要时——本轮没有改动任何文件、该插件被组合出去，或该轮之后 Host 重启过——卡片不出现，只保留交付卡片与正文链接；工作区不在 git 仓库内时摘要只列文件工具的编辑。
 
-改动文件与交付文件的入口卡片、内部文件图标底框和悬停预览浮层遵循 [R16 预览卡片规则](../../../docs/ui-radius.zh.md#radius-scale)，hover 保持相同轮廓。
+改动文件与交付文件的入口卡片、内部文件图标底框和悬停预览浮层遵循 R16 预览卡片规则，hover 保持相同轮廓。
 
 <a id="explicit-deliveries"></a>
 ### 显式交付
@@ -36,7 +36,7 @@ kind: "package-reference"
 
 Web 的 `standard`、`ptc` 与 `cordis` preset 提供 `present`，用于声明会话文件系统可访问的最终文件，包括通过 Bash 创建的文件。创建后以 `files: [{ path, description? }]` 调用。[present 工具](../../deliverables/tool-present/README.zh.md)拥有文件数量限制和会话声明。单个交付占满一行，多个交付使用双列网格，超过四个时默认收起。卡片显示文件名、说明或文件类型，以及共享的原生打开控件。交付和改动文件卡片的图标底块在浅色主题下使用 50% 不透明度的白色，深色主题下为 5%。图标底块与单文件改动卡片的外框使用与交付卡片相同的描边。点击卡片会在右侧 Sidebar 预览文件。控件打开默认应用，并列出关联应用，文件定位始终放在最后。匹配的行内代码引用也打开 Sidebar 预览。重复声明使用收尾回复之前最近一次的说明。
 
-`present` 工具行在执行、成功、失败和中断状态下保留文档图标及记录的结果。原生操作共享等待状态，并在卡片显示进度或可重试错误。打开或定位成功的反馈显示五秒后，在 200ms 内淡出并恢复文件说明；失败信息保留到下次尝试。卡片挂载时读取桌面信息，连接更换时清除缓存。Host 没有桌面时，卡片保留 Sidebar 预览并隐藏原生控件；元数据读取失败时提供重试。交付卡片和变更对比页通过 `deliverables.file.actions` 和 `deliverables.review.file.actions` 使用 [ui-open-in-app](../ui-open-in-app/README.zh.md) 提供的控件。关联应用 GET 查询与原生 POST 操作都会先校验记录中的文件坐标及会话文件系统映射，再调用 Host 桌面。
+`present` 工具行在执行、成功、失败和中断状态下保留文档图标及记录的结果。原生操作共享等待状态，并在卡片显示进度或可重试错误。打开或定位成功的反馈显示五秒后，在 200ms 内淡出并恢复文件说明；失败信息保留到下次尝试。卡片挂载时读取桌面信息，连接更换时清除缓存。Host 没有桌面时，卡片保留 Sidebar 预览并隐藏原生控件；元数据读取失败时提供重试。交付卡片和变更对比页暴露 `deliverables.file.actions` 和 `deliverables.review.file.actions`，由应用内打开控件提供。关联应用 GET 查询与原生 POST 操作都会先校验记录中的文件坐标及会话文件系统映射，再调用 Host 桌面。
 
 ### 改动文件卡片
 

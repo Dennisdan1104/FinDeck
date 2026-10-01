@@ -2,5 +2,5 @@
 # side as of the last confirmed-consistent state. Both languages carry equal authority;
 # after editing either side, bring the other along and update both hashes by hand
 # (`git hash-object <path>`); nothing verifies this record.
-adding-a-vendored-package.md: 5c0d9b22eac4db916cd1eab37c1e90690be40e3c
-adding-a-vendored-package.zh.md: 274bd467ef9a969adccdd813fbe8cdb69cf2b475
+adding-a-vendored-package.md: 3a71a09a3275c6117e707e57b3d07824107185aa
+adding-a-vendored-package.zh.md: fd8456fe55d98eec778a4693ed54e96b7f8c27eb

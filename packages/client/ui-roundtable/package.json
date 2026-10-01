@@ -2,9 +2,7 @@
   "name": "@deepseek-ai/dsh-client-ui-roundtable",
   "description": "The roundtable primary page (R13/U6): identity roster, shared transcript, steering input, and live phase over the roundtable Remote",
   "version": "0.1.2-rc.1",
-  "publishConfig": {
-    "access": "public"
-  },
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Dennisdan1104/FinDeck.git",

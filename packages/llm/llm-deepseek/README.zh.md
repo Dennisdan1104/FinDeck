@@ -209,8 +209,8 @@ loop 保留的响应块会追加到下一个请求，并保留其更早的可复
 - **请求使用原始 `fetch`，而非 `@cordisjs/plugin-http`**——没有共享代理或拦截配置。
 - **跳过插件新增的内容块类型**——核心文本与受支持图片块会被序列化，空工具输出以字面量 `(no output)` 过线。
 - **图片是仅用于输入的持久附件**——不支持直接外部 URL 与 assistant 图片输出；DeepSeek 输入通常使用 Files API，仅在单次请求恢复时使用内联 base64。
-- 默认目录预注册 `deepseek-flash` 及其文本、图片和历史内更新能力，不探测网关可用性。网关开放该 ID 前，请求可能以 `INVALID_REQUEST` 失败。配置 `DEEPSEEK_API_KEY` 和支持该 ID 的网关后，设置 `DEEPSEEK_FLASH_E2E=1` 可启用[本包 e2e 测试文件](tests/adapter.e2e.ts)中的 Chat Completions 协议验证。
-- [Messages system 更新 e2e](tests/messages/adapter.e2e.ts) 要求通过 `DEEPSEEK_IN_HISTORY_MODEL` 指定支持该能力的模型，例如 `deepseek-flash`，并使用 `high` 思考强度。该变量未设置或为空时跳过；普通 `off` 文本检查仍在有凭据时运行。关闭思考时已知的指令遵循不稳定，使这些 system 更新检查不适合使用 `off`。
+- 默认目录预注册 `deepseek-flash` 及其文本、图片和历史内更新能力，不探测网关可用性。网关开放该 ID 前，请求可能以 `INVALID_REQUEST` 失败。配置 `DEEPSEEK_API_KEY` 和支持该 ID 的网关后，设置 `DEEPSEEK_FLASH_E2E=1` 可启用本包 e2e 测试文件中的 Chat Completions 协议验证。
+- Messages system 更新 e2e 检查要求通过 `DEEPSEEK_IN_HISTORY_MODEL` 指定支持该能力的模型，例如 `deepseek-flash`，并使用 `high` 思考强度。该变量未设置或为空时跳过；普通 `off` 文本检查仍在有凭据时运行。关闭思考时已知的指令遵循不稳定，使这些 system 更新检查不适合使用 `off`。
 
 <a id="dev-note"></a>
 ### 开发备注

@@ -2,9 +2,7 @@
   "name": "@deepseek-ai/dsh-api-terminal-controller",
   "description": "Session-owned interactive terminals with shell discovery, screen recovery and typed Remote control",
   "version": "0.1.6-alpha.2",
-  "publishConfig": {
-    "access": "public"
-  },
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Dennisdan1104/FinDeck.git",

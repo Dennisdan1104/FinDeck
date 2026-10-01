@@ -2,9 +2,7 @@
   "name": "@deepseek-ai/cordis-plugin-hmr",
   "description": "Hot Module Replacement Plugin for Cordis",
   "version": "1.0.17",
-  "publishConfig": {
-    "access": "public"
-  },
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",

@@ -2,9 +2,7 @@
   "name": "@deepseek-ai/dsh-tool-cluster",
   "description": "Model-facing cluster_run tool: one task answered by several perspective-assigned subagents and combined by an aggregator subagent",
   "version": "0.1.3-alpha.1",
-  "publishConfig": {
-    "access": "public"
-  },
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Dennisdan1104/FinDeck.git",

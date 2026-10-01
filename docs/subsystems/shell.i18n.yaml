@@ -2,5 +2,5 @@
 # side as of the last confirmed-consistent state. Both languages carry equal authority;
 # after editing either side, bring the other along and update both hashes by hand
 # (`git hash-object <path>`); nothing verifies this record.
-shell.md: 78891379327df3d85ca19cc5a0c4e5f4633041af
-shell.zh.md: bc3be77bb0ea8c76e008778c444a914fe634f610
+shell.md: bc6a6f4327643639a9d3f8795b7c455556e6444d
+shell.zh.md: f2ef684105fce7c76b7d501a7c4fc76daacf07f5

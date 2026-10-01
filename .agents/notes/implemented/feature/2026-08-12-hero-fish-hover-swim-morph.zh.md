@@ -12,7 +12,7 @@ hover New Session 主页的鲸鱼（`dsh-client-ui-conversation` 的 `EmptyHero.
 
 通过 SMIL `<animate attributeName="d">` 做真实曲线变形，按与 CSS 摇摆相同的 1.6s 周期循环 `静止 → 尾上摆 → 静止 → 尾下压 → 静止`；CSS 摇摆改为持续循环（`infinite`），指针停留多久就游多久。两个变形目标由程序生成（在 `/tmp` 运行的脚本，未入库）：解析 `FISH_LOGO_PATH` 的绝对 M/C/L/Z 命令，尾部区域绕支点做带 smoothstep 衰减权重的旋转，嘴巴/鳍的内侧曲线以距身体锚点的权重平方做竖直弯曲（微笑式上扬，而非刚性摆动——刚性旋转看起来与身体脱节），并输出结构完全一致、SMIL 可插值的命令串。烘焙出的路径常量与组件放在一起，并在注释中记录生成参数。SMIL 无法响应 CSS 媒体查询，因此用经 `matchMedia('(prefers-reduced-motion: reduce)')` 判定的 `hovering` 状态控制变形挂载，CSS 摇摆则在 `@media (hover: hover) and (prefers-reduced-motion: no-preference)` 之下。
 
-变形鲸鱼以 `conversation.hero.brand.mark` slot 的 fallback 身份进入主页；没有任何发布包占据该 slot——`dsh-client-ui-brand-official` 只填充侧栏槽位，因为 feature 插件不得跨包 value-import `HeroFish`（[client 跨包规则](../process/2026-08-23-client-cross-package-value-dependencies.zh.md)），而 fallback 本身就是官方标志。`FISH_LOGO_PATH` 与 `FISH_LOGO_VIEWBOX` 从 `dsh-client-ui-primitives` 导出，供围绕同一几何自行组装 svg 的消费方使用。
+变形鲸鱼以 `conversation.hero.brand.mark` slot 的 fallback 身份进入主页；没有任何发布包占据该 slot，因为 feature 插件不得跨包 value-import 品牌图形（[client 跨包规则](../process/2026-08-23-client-cross-package-value-dependencies.zh.md)）。
 
 ## 考虑过的替代方案
 

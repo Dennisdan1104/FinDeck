@@ -61,7 +61,7 @@ No runtime invariant companion is published because this library has no independ
 ## Further Exploration
 
 - [Utility package map](../README.md) — shared primitives.
-- [Subagent package](../subagent/subagent/README.md) — the catalog projection that consumes this collection.
+- [Subagent package](../../subagent/subagent/README.md) — the catalog projection that consumes this collection.
 
 -----
 

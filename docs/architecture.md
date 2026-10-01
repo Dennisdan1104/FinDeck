@@ -1,4 +1,4 @@
-# DeepSeek Harness Architecture
+# FinDeck Architecture
 
 English | [中文](architecture.zh.md)
 

@@ -26,7 +26,7 @@ pnpm run build
 
 ## How a change is verified
 
-This fork ships no test suite and no CI gate: no spec or snapshot corpus, no coverage or lint gate, no `test`, `check`, or `verify` script, and nothing that turns red on its own. A change is accepted because it was built and exercised against real input, not because a checker passed ([verification](docs/testing.md)).
+This fork ships no test runner and no CI gate: about thirty historical spec and end-to-end files remain in the tree, but nothing executes them, and there is no coverage or lint gate, no `test`, `check`, or `verify` script, and nothing that turns red on its own. A change is accepted because it was built and exercised against real input, not because a checker passed ([verification](docs/testing.md)).
 
 ```sh
 pnpm run build

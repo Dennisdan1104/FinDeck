@@ -2,9 +2,7 @@
   "name": "@deepseek-ai/dsh-office-to-pdf",
   "description": "Shared Office-to-PDF conversion with bounded queues and caching",
   "version": "0.1.7-rc.2",
-  "publishConfig": {
-    "access": "public"
-  },
+  "private": true,
   "type": "module",
   "main": "lib/index.js",
   "types": "lib/types/index.d.ts",

@@ -2,9 +2,7 @@
   "name": "@deepseek-ai/dsh-tool-subagent-control",
   "description": "Globally named send_message, interrupt_agent, list_agents, and agent_inspect tools over ctx.subagents continuations",
   "version": "0.1.3-alpha.1",
-  "publishConfig": {
-    "access": "public"
-  },
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Dennisdan1104/FinDeck.git",

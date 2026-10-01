@@ -29,7 +29,7 @@ kind: "package-reference"
 
 调用方通过 `ctx.officeToPdf.convert()` 提交已授权源的标识、版本、可选字节数、延迟的有界读取、Office 扩展名和调度优先级。源版本变化会拒绝转换。结果包含调用方拥有的 PDF 字节、缺失字体、缓存键和转换 generation；配置替换后 generation 随之改变。取消以原因为拒绝值，转换失败使用 `OfficeToPdfError`。
 
-此 provider 依赖独立发布的 [`@deepseek-ai/libreoffice-kit`](https://github.com/deepseek-harness/libreoffice-kit/tree/main/packages/entry) npm API，kit 版本为 `0.1.1`。应用打包选择 kit 的 `optionalDependencies` 中声明的匹配原生包；目标没有声明原生包时选择 WASM。已声明的原生引擎缺失时拒绝打包，不会选择 WASM。项目所有者接受该 kit 作为 MPL-2.0 运行时依赖的登记见[第三方声明记录](../../../.agents/notes/implemented/process/2026-07-30-generated-third-party-notices.zh.md)；引擎资产与转换保真度在 kit 与此提供方之间的划分见[已知限制与延后工作](#known-limitations-and-deferred-work)。
+此 provider 依赖独立发布的 [`@deepseek-ai/libreoffice-kit`](https://github.com/deepseek-ai/dsh-libreoffice-kit/tree/master/packages/entry) npm API，kit 版本为 `0.1.1`。应用打包选择 kit 的 `optionalDependencies` 中声明的匹配原生包；目标没有声明原生包时选择 WASM。已声明的原生引擎缺失时拒绝打包，不会选择 WASM。项目所有者接受该 kit 作为 MPL-2.0 运行时依赖的登记见[第三方声明记录](../../../.agents/notes/implemented/process/2026-07-30-generated-third-party-notices.zh.md)；引擎资产与转换保真度在 kit 与此提供方之间的划分见[已知限制与延后工作](#known-limitations-and-deferred-work)。
 
 浏览器通过 `officeToPdf.render` Remote 方法请求 PDF，参数为 Session 标识、Office 路径和优先级。此入口使用 `workspaceFiles` 完成授权和源版本检查，再通过 `fs.readBytes` 在转换预留容量内读取原始字节。进程内 `convert()` 不要求这些服务。响应保留源文件路径与版本，通过二进制 Remote 的 multipart 传输携带原生 PDF 字节，并携带缺失字体和转换 generation。`officeToPdf.generation` Remote 方法返回当前提供方 generation；`api/remotes` 负责挂载生成的 Client 描述符。
 
