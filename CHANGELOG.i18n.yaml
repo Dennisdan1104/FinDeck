@@ -2,5 +2,5 @@
 # side as of the last confirmed-consistent state. Both languages carry equal authority;
 # after editing either side, bring the other along and update both hashes by hand
 # (`git hash-object <path>`); nothing verifies this record.
-llm-streaming.md: 718da65a366f78253180965bc7b57fb79d677e3a
-llm-streaming.zh.md: e1d1562d218d1d340f8c78f523160f90aefb6cde
+CHANGELOG.md: 4e4b8510d49dacd4b5a8146af62e2e0191e83ed0
+CHANGELOG.zh.md: 2f598b1d38d62c86bdfebe5521cf30952651ce4b

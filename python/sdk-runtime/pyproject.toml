@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "deepseek-harness-runtime-bin"
-version = "0.0.0.dev0"
+version = "1.0.0-alpha.1"
 description = "Bundled dsh CLI runtime for the DeepSeek Harness Python SDK"
 readme = "README.md"
 requires-python = ">=3.10"

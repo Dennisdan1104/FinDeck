@@ -22,12 +22,12 @@ wheels = [
 
 [[package]]
 name = "deepseek-harness-runtime-bin"
-version = "0.0.0.dev0"
+version = "1.0.0a1"
 source = { editable = "../sdk-runtime" }
 
 [[package]]
 name = "deepseek-harness-sdk"
-version = "0.0.0.dev0"
+version = "1.0.0a1"
 source = { editable = "." }
 dependencies = [
     { name = "deepseek-harness-runtime-bin" },

@@ -9,11 +9,13 @@
 
 import { createRequire } from 'node:module'
 
-// The package's own manifest is the single source of the version so the
-// User-Agent cannot drift from what is published (`./package.json` is an
-// export of this package; the relative path resolves from both `src/` and
-// the bundled `lib/`).
-const { version } = createRequire(import.meta.url)('../package.json') as { version: string }
+// The product version is the repository root manifest's single version line, not
+// this package's: workspace package versions are private and carry no external
+// meaning (root `AGENTS.md`). The four-level hop lands on the tree root for both
+// layouts that ship this module — `packages/llm/llm/lib/` in the checkout and
+// `node_modules/@deepseek-ai/dsh-llm/lib/` in the staged desktop runtime
+// (`scripts/build-desktop-installer.ts`).
+const { version } = createRequire(import.meta.url)('../../../../package.json') as { version: string }
 
 /**
  * Static public application identity sent to LLM providers.
@@ -25,7 +27,7 @@ const { version } = createRequire(import.meta.url)('../package.json') as { versi
 export interface AppIdentity {
   /** `User-Agent` product token (lowercase, hyphenated). */
   product: string
-  /** Product version; sourced from package metadata, never hand-copied. */
+  /** Product version; read from the repository root manifest, never hand-copied. */
   version: string
   /** Repository home URL of the app, used as the `User-Agent` comment. */
   url: string
