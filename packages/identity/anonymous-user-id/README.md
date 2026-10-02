@@ -25,7 +25,7 @@ Every harness home gets one anonymous id that telemetry, feedback, and DeepSeek 
 <a id="use-this-package"></a>
 ## Use this package
 
-When you want the records your installation sends out to be recognizable as coming from the same harness home — telemetry, feedback, and DeepSeek requests all carry one shared id — this package is what provides it. There is nothing to install or configure: the id appears automatically, and the shipped feedback, telemetry, and DeepSeek features already use it. Do not use it to identify a user or to join records across different homes; it is anonymous and home-scoped.
+When you want the records your installation sends out to be recognizable as coming from the same harness home — telemetry, feedback, and DeepSeek requests all carry one shared id — this package is what provides it. There is nothing to install or configure: the id appears automatically, and the shipped feedback and DeepSeek features already use it, as does any telemetry backend a deployment mounts. Do not use it to identify a user or to join records across different homes; it is anonymous and home-scoped.
 
 ### What the id does for you
 

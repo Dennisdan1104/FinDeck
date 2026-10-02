@@ -2,5 +2,5 @@
 # side as of the last confirmed-consistent state. Both languages carry equal authority;
 # after editing either side, bring the other along and update both hashes by hand
 # (`git hash-object <path>`); nothing verifies this record.
-network-proxy.md: c6fea8b5ab8a9fd78815ccb32363ae36a5bfa45a
-network-proxy.zh.md: 658c9d9a909236ee88ca47dee14515f7f3ebc9fb
+network-proxy.md: 62a43dd737c62a35e161a2aa17372becc60bc933
+network-proxy.zh.md: 395dcaf8fa1f774a270ee027799f6de39aa214cf

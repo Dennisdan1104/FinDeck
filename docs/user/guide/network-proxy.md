@@ -67,7 +67,7 @@ Not every request DSH makes goes through the proxy:
 
 - **Anything on this machine.** Loopback is always direct: `localhost`, the whole `127.0.0.0/8` range, `::1`, and `0.0.0.0`. A proxy cannot usefully reach a service that only listens locally.
 - **Code the model writes.** The workflow and ptc-runtime workers never receive the proxy settings, so a script the model authors cannot read a proxy URL that may carry a password. Such a script reaches the network only if it configures that itself.
-- **Usage telemetry.** The OTLP exporter uses Node's own HTTP client rather than the one a proxy configures, so telemetry connects directly and simply fails where direct egress is blocked. Nothing you do in DSH depends on it. Set `DSH_TELEMETRY_MODE=DISABLED` to turn it off entirely.
+- **Usage telemetry.** The shipped base mounts no telemetry backend, so there is no telemetry request to route. A deployment that mounts `@deepseek-ai/dsh-session-telemetry-otel` gets an exporter that uses Node's own HTTP client rather than the one a proxy configures, so that traffic connects directly and simply fails where direct egress is blocked; nothing else in DSH depends on it.
 - **`web_fetch` to a literal private address.** A URL naming an address like `http://10.0.0.5/` is refused rather than handed to the proxy, the same refusal it gets with no proxy configured.
 
 ## Check that it worked
