@@ -13,6 +13,18 @@ It is built on [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harnes
 
 > Developer preview — expect breaking changes inherited from upstream. Review the [safety notice](SAFETY.md) before running.
 
+> FinDeck's output is not investment advice. Read [SAFETY.md](SAFETY.md) before you run it.
+
+## Download
+
+Grab the Windows installer from [Releases](https://github.com/Dennisdan1104/FinDeck/releases) — the setup file is named `FinDeck.Setup.*.exe`.
+
+It is unsigned, so SmartScreen warns about an "unknown publisher". That is expected for this build: click **More info → Run anyway**.
+
+Once installed, the desktop app works as is. Nothing heavy is bundled — the Python data environment and the other large components download on demand from **Settings → Environment & components**, so you do not need to prepare them first.
+
+To build from source or work on FinDeck itself, see the Quickstart below.
+
 ## Quickstart
 
 <a id="run"></a>

@@ -13,6 +13,18 @@
 
 > 开发者预览版——会跟随上游出现不兼容变更。运行前请阅读[安全说明](SAFETY.zh.md)。
 
+> FinDeck 的产出不构成投资建议。运行前请阅读 [SAFETY.zh.md](SAFETY.zh.md)。
+
+## 下载
+
+到 [Releases](https://github.com/Dennisdan1104/FinDeck/releases) 页面下载 Windows 安装包，文件名形如 `FinDeck.Setup.*.exe`。
+
+安装包未签名，Windows SmartScreen 会提示“未知发布者”。这是本版本的预期行为：点 **更多信息 → 仍要运行** 即可。
+
+装好就能直接用桌面版。安装包不内置重型组件——Python 数据环境等大组件在 **设置 → 环境与组件** 里按需下载，不必提前准备。
+
+想从源码构建，或参与 FinDeck 本身的开发，见下方「快速开始」。
+
 ## 快速开始
 
 <a id="run"></a>

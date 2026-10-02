@@ -31,6 +31,9 @@ FinDeck adds a finance research layer to DeepSeek Harness. The following risks b
 - **The research discipline is instruction, not enforcement.** The skills require residual diagnosis, out-of-sample validation, a look-ahead check and a disclaimer in every report. These are instructions to the model. No validator rejects a report that ignores them.
 - **The agent can read your API keys.** Provider keys are stored in plain text in `~/.findeck/.credentials.yaml`. The agent's tools run under your user account, so they can read that file, and on Windows the mode check is skipped because the file carries no POSIX mode to inspect. Most model-driven actions pass the approval prompt; `asset_run_bg` is the exception, because it submits a detached background run into the finance Python virtual environment and answers before any result exists.
 - **No trading integration.** No shipped code calls a broker or exchange order endpoint: FinDeck reads data and writes files. The finance Python environment that `asset_run` and `asset_run_bg` execute in does carry `ccxt`, an exchange client library whose API includes order placement, so code outside the shipped set is what would reach an order.
+- **Backtests do not predict.** Historical performance and backtest results — including any the AI produces — do not guarantee future returns. Markets change regime, and a strategy that fit the past can fail outright.
+- **Your questions go to your model provider.** Everything you ask, including the tickers, strategies and portfolio details in your prompts, is sent to whatever LLM provider you configure (DeepSeek, an OpenAI-compatible gateway, or a local server). FinDeck itself runs no analytics and uploads nothing anywhere else.
+- **No advisory license.** FinDeck and its authors hold no investment-advisory or securities-consulting qualification in any jurisdiction; nothing here is a solicitation or a recommendation to buy or sell.
 
 ## No warranty or liability
 
